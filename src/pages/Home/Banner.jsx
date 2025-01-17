@@ -1,5 +1,3 @@
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import React from 'react';
 import { Fade, Zoom } from 'react-awesome-reveal';
 
@@ -16,7 +14,7 @@ const Banner = () => {
             }}
         >
             <Fade>
-                <h1 className="text-3xl md:text-6xl font-bold mb-7 text-white">
+                <h1 className="text-3xl md:text-6xl text-center font-bold mb-7 text-white">
                     Your Reliable Delivery Partner
                 </h1>
             </Fade>
@@ -27,8 +25,16 @@ const Banner = () => {
             </Fade>
             <Zoom delay={500}>
                 <div className="flex w-full max-w-sm items-center">
-                    <Input className="rounded-none rounded-tl-xl rounded-bl-xl w-60" type="text" placeholder="Search for delivery services" />
-                    <Button className="rounded-none rounded-tr-xl rounded-br-xl text-lg" type="submit">Search</Button>
+                    <input
+                        type="text" placeholder="Search for delivery services"
+                        className="p-2 rounded-l-lg outline-none text-black w-72"
+                    />
+                    <button
+                        type="submit"
+                        className="p-2 px-4 bg-[#ca6602] rounded-r-lg text-white hover:bg-[#a65201] transition-colors font-semibold"
+                    >
+                        Search
+                    </button>
                 </div>
             </Zoom>
         </div>
