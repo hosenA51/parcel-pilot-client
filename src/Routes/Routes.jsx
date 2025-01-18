@@ -1,5 +1,7 @@
 import MainLayout from "@/Layout/MainLayout";
 import Home from "@/pages/Home/Home";
+import Login from "@/pages/Login/Login";
+import SignUp from "@/pages/SignUp/SignUp";
 import {
     createBrowserRouter,
   } from "react-router-dom";
@@ -12,6 +14,14 @@ import {
         {
             path: '/',
             element: <Home></Home>
+        },
+        {
+            path: 'login',
+            element: <Login></Login>
+        },
+        {
+            path: 'signup',
+            element: <SignUp></SignUp>
         }
       ]
     },
