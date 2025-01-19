@@ -1,4 +1,3 @@
-import { BsFingerprint } from 'react-icons/bs'
 import MenuItem from './MenuItem'
 import { BiSolidPackage } from 'react-icons/bi'
 import { TbBrandBooking } from "react-icons/tb";
