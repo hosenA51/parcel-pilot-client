@@ -4,25 +4,36 @@ import Login from "@/pages/Login/Login";
 import SignUp from "@/pages/SignUp/SignUp";
 import {
     createBrowserRouter,
-  } from "react-router-dom";
+} from "react-router-dom";
+import PrivateRoute from "./PrivateRoute";
+import DashboardLayout from "@/Layout/DashboardLayout";
 
- export const router = createBrowserRouter([
+export const router = createBrowserRouter([
     {
-      path: "/",
-      element: <MainLayout></MainLayout>,
-      children: [
-        {
-            path: '/',
-            element: <Home></Home>
-        },
-        {
-            path: 'login',
-            element: <Login></Login>
-        },
-        {
-            path: 'signup',
-            element: <SignUp></SignUp>
-        }
-      ]
+        path: "/",
+        element: <MainLayout></MainLayout>,
+        children: [
+            {
+                path: '/',
+                element: <Home></Home>
+            },
+            {
+                path: 'login',
+                element: <Login></Login>
+            },
+            {
+                path: 'signup',
+                element: <SignUp></SignUp>
+            }
+        ]
     },
-  ]);
+    {
+        path: '/dashboard',
+        element: (
+            <PrivateRoute>
+                <DashboardLayout />
+            </PrivateRoute>
+        ),
+        children: [],
+    }
+]);

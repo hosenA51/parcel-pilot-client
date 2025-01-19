@@ -127,8 +127,8 @@ const SignUp = () => {
                     <div className="form-control">
                         <select name="role" className="select select-bordered w-full max-w-xs" required>
                             <option>Role</option>
-                            <option value="User">User</option>
-                            <option value="Delivery Men">Delivery Men</option>
+                            <option value="user">User</option>
+                            <option value="delivery Men">Delivery Men</option>
                         </select>
                     </div>
                     <div className="form-control relative">

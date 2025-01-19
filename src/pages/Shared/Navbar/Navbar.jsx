@@ -4,7 +4,7 @@ import { Link, NavLink } from 'react-router-dom'
 // import useAuth from '../../../hooks/useAuth'
 import logo from '../../../assets/logo1.png'
 import { Button } from '@/components/ui/button'
-import { MdNotificationAdd } from "react-icons/md";
+import { MdNotificationAdd } from "react-icons/md"
 import './Navbar.css'
 import { AuthContext } from '@/providers/AuthProvider'
 const Navbar = () => {
