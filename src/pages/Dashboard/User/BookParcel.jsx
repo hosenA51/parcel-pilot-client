@@ -71,6 +71,7 @@ const BookParcel = () => {
             toast.error('All fields are required!');
             return;
         }
+        const bookingDate = new Date().toISOString();
 
         const parcelData = {
             senderName: user?.displayName,
@@ -86,6 +87,7 @@ const BookParcel = () => {
             longitude,
             price: formData.price,
             status: 'pending',
+            bookingDate
         };
 
         try {
@@ -119,7 +121,7 @@ const BookParcel = () => {
             toast.error(error?.response?.data?.message || 'Failed to book parcel. Please try again.');
         }
     };
-    
+
     return (
         <div className="card lg:w-full shrink-0 shadow-2xl mx-auto">
             <h1 className='text-3xl font-bold text-[#ca6602] m-4 text-center'>Book a Parcel</h1>

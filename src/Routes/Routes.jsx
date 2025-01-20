@@ -8,6 +8,8 @@ import {
 import PrivateRoute from "./PrivateRoute";
 import DashboardLayout from "@/Layout/DashboardLayout";
 import BookParcel from "@/pages/Dashboard/User/BookParcel";
+import MyParcels from "@/pages/Dashboard/User/MyParcels";
+import UpdateParcel from "@/pages/Dashboard/User/UpdateParcel";
 
 export const router = createBrowserRouter([
     {
@@ -40,6 +42,18 @@ export const router = createBrowserRouter([
                 path: 'book-parcel',
                 element: <PrivateRoute>
                     <BookParcel></BookParcel>
+                </PrivateRoute>
+            },
+            {
+                path: 'my-parcels',
+                element: <PrivateRoute>
+                    <MyParcels></MyParcels>
+                </PrivateRoute>
+            },
+            {
+                path: 'update-booking/:id',
+                element: <PrivateRoute>
+                    <UpdateParcel></UpdateParcel>
                 </PrivateRoute>
             }
         ],
