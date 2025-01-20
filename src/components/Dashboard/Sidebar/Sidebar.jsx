@@ -4,10 +4,11 @@ import { AiOutlineBars } from 'react-icons/ai'
 import useAuth from '../../../hooks/useAuth'
 import logo from '../../../assets/logo1.png'
 import AdminMenu from './Menu/AdminMenu'
-import { Link } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
 import UserMenu from './Menu/UserMenu'
 import DeliveryMenMenu from './Menu/DeliveryMenMenu'
 import useRole from '@/hooks/useRole'
+import { FaHome } from 'react-icons/fa'
 const Sidebar = () => {
     const { logOut } = useAuth()
     const [isActive, setActive] = useState(false)
@@ -30,7 +31,7 @@ const Sidebar = () => {
                         <Link to='/'>
                             <div className='flex gap-2 items-center'>
                                 <img src={logo} alt='logo' width='40' height='40' />
-                                <h2 className='text-3xl font-bold text-white'>ParcelPilot</h2>
+                                <h2 className='text-3xl font-bold text-[#ca6602]'>ParcelPilot</h2>
                             </div>
                         </Link>
                     </div>
@@ -69,9 +70,16 @@ const Sidebar = () => {
                             {role === 'user' && <UserMenu />}
                             {role === 'delivery Men' && <DeliveryMenMenu />}
                         </nav>
+                        <div className='h-1 w-60 bg-[#ca6602] rounded-full'></div>
+                        <NavLink
+                            to="/"
+                            className='flex w-full items-center px-4 py-2 mt-5 text-gray-600 hover:bg-gray-300 hover:text-gray-700 transition-colors font-semibold text-lg duration-300 transform'
+                        >
+                            <FaHome />
+                            <span className='ml-2'>Home</span>
+                        </NavLink>
                     </div>
                 </div>
-
                 <div>
                     <hr />
                     <button

@@ -34,16 +34,7 @@ const Navbar = () => {
                             >
                                 Home
                             </NavLink>
-                            <NavLink
-                                to="secret"
-                                className={({ isActive }) =>
-                                    isActive
-                                        ? "text-lg font-semibold underline text-[#ca6602]"
-                                        : "text-lg font-semibold"
-                                }
-                            >
-                                secret
-                            </NavLink>
+
                             <p className='text-2xl text-[#ca6602] font-semibold cursor-pointer'><MdNotificationAdd /></p>
                             {/* Dropdown Menu */}
                             {user ?

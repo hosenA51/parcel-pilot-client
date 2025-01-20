@@ -7,6 +7,7 @@ import {
 } from "react-router-dom";
 import PrivateRoute from "./PrivateRoute";
 import DashboardLayout from "@/Layout/DashboardLayout";
+import BookParcel from "@/pages/Dashboard/User/BookParcel";
 
 export const router = createBrowserRouter([
     {
@@ -34,6 +35,13 @@ export const router = createBrowserRouter([
                 <DashboardLayout />
             </PrivateRoute>
         ),
-        children: [],
+        children: [
+            {
+                path: 'book-parcel',
+                element: <PrivateRoute>
+                    <BookParcel></BookParcel>
+                </PrivateRoute>
+            }
+        ],
     }
 ]);
