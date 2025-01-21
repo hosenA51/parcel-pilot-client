@@ -7,9 +7,9 @@ const UserMenu = () => {
 
   return (
     <>
+      <MenuItem icon={ImProfile} label='My Profile' address='my-profile' />
       <MenuItem icon={TbBrandBooking} label='Book a Parcel' address='book-parcel' />
       <MenuItem icon={BiSolidPackage} label='My Parcels' address='my-parcels' />
-      <MenuItem icon={ImProfile} label='My Profile' address='my-profile' />
     </>
   )
 }

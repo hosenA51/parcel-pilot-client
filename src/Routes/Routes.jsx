@@ -10,6 +10,7 @@ import DashboardLayout from "@/Layout/DashboardLayout";
 import BookParcel from "@/pages/Dashboard/User/BookParcel";
 import MyParcels from "@/pages/Dashboard/User/MyParcels";
 import UpdateParcel from "@/pages/Dashboard/User/UpdateParcel";
+import MyProfile from "@/pages/Dashboard/User/MyProfile";
 
 export const router = createBrowserRouter([
     {
@@ -51,9 +52,9 @@ export const router = createBrowserRouter([
                 </PrivateRoute>
             },
             {
-                path: 'update-booking/:id',
+                path: 'my-profile',
                 element: <PrivateRoute>
-                    <UpdateParcel></UpdateParcel>
+                    <MyProfile></MyProfile>
                 </PrivateRoute>
             }
         ],

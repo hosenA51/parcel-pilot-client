@@ -1,7 +1,6 @@
 import Container from '../Container'
 import { useContext, useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
-// import useAuth from '../../../hooks/useAuth'
 import logo from '../../../assets/logo1.png'
 import { Button } from '@/components/ui/button'
 import { MdNotificationAdd } from "react-icons/md"
@@ -71,7 +70,7 @@ const Navbar = () => {
                                                     <>
                                                         <p className='px-4 py-3 hover:bg-slate-400 transition rounded-xl font-semibold'>{user?.displayName}</p>
                                                         <Link
-                                                            to='/dashboard'
+                                                            to='/dashboard/my-profile'
                                                             className='px-4 py-3 hover:bg-slate-400 transition rounded-xl font-semibold'
                                                         >
                                                             Dashboard
