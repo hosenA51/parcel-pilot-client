@@ -11,6 +11,9 @@ import BookParcel from "@/pages/Dashboard/User/BookParcel";
 import MyParcels from "@/pages/Dashboard/User/MyParcels";
 import UpdateParcel from "@/pages/Dashboard/User/UpdateParcel";
 import MyProfile from "@/pages/Dashboard/User/MyProfile";
+import UserRoute from "./UserRoute";
+import AdminRoute from "./AdminRoute";
+import Statistics from "@/pages/Dashboard/Admin/Statistics";
 
 export const router = createBrowserRouter([
     {
@@ -42,27 +45,43 @@ export const router = createBrowserRouter([
             {
                 path: 'book-parcel',
                 element: <PrivateRoute>
-                    <BookParcel></BookParcel>
+                    <UserRoute>
+                        <BookParcel></BookParcel>
+                    </UserRoute>
                 </PrivateRoute>
             },
             {
                 path: 'my-parcels',
                 element: <PrivateRoute>
-                    <MyParcels></MyParcels>
+                    <UserRoute>
+                        <MyParcels></MyParcels>
+                    </UserRoute>
                 </PrivateRoute>
             },
             {
                 path: 'my-profile',
                 element: <PrivateRoute>
-                    <MyProfile></MyProfile>
+                    <UserRoute>
+                        <MyProfile></MyProfile>
+                    </UserRoute>
                 </PrivateRoute>
             },
             {
                 path: 'update-parcel/:id',
                 element: <PrivateRoute>
-                    <UpdateParcel></UpdateParcel>
+                    <UserRoute>
+                        <UpdateParcel></UpdateParcel>
+                    </UserRoute>
                 </PrivateRoute>,
-                loader: ({params}) => fetch(`http://localhost:5000/parcels/${params.id}`)
+                loader: ({ params }) => fetch(`http://localhost:5000/parcels/${params.id}`)
+            },
+            {
+                path: 'statistics',
+                element: <PrivateRoute>
+                    <AdminRoute>
+                        <Statistics></Statistics>
+                    </AdminRoute>
+                </PrivateRoute>
             }
         ],
     }
