@@ -23,12 +23,8 @@ const Statistics = () => {
     const barChartData = {
         series: [
             {
-                name: "Total Users",
-                data: [bookingData.totalUsers || 0],
-            },
-            {
-                name: "Total Parcels",
-                data: [bookingData.totalParcels || 0],
+                name: "Bookings",
+                data: bookingData.bookingsByDate || [], // API থেকে সংগ্রহকৃত ডেটা
             },
         ],
         options: {
@@ -37,41 +33,80 @@ const Statistics = () => {
                 height: 350,
             },
             title: {
-                text: "Total Users and Parcels",
+                text: "Bookings by Date",
                 align: "center",
             },
             xaxis: {
-                categories: bookingData.totalUsers && bookingData.totalParcels ? ['Metric'] : [], // চেক করুন যে ডেটা আছে কিনা
+                categories: bookingData.dates || [], // API থেকে তারিখ
                 title: {
-                    text: "Metric",
+                    text: "Booking Date",
                 },
             },
             yaxis: {
                 title: {
-                    text: "Count",
+                    text: "Number of Bookings",
                 },
+            },
+        },
+    };
+
+    const lineChartData = {
+        series: [
+            {
+                name: "Booked Parcels",
+                data: bookingData.bookedByDate || [], // Booked ডেটা
+            },
+            {
+                name: "Delivered Parcels",
+                data: bookingData.deliveredByDate || [], // Delivered ডেটা
+            },
+        ],
+        options: {
+            chart: {
+                type: "line",
+                height: 350,
+            },
+            title: {
+                text: "Booked vs Delivered Parcels by Date",
+                align: "center",
+            },
+            xaxis: {
+                categories: bookingData.dates || [], // API থেকে তারিখ
+                title: {
+                    text: "Booking Date",
+                },
+            },
+            yaxis: {
+                title: {
+                    text: "Number of Parcels",
+                },
+            },
+            stroke: {
+                curve: "smooth",
             },
         },
     };
 
     return (
         <div className="statistics">
-        {bookingData.totalUsers && bookingData.totalParcels ? (
-            <>
-                <h2 className="text-2xl font-bold text-center mb-6">Dashboard Statistics</h2>
-                <div className="chart-container mb-8">
-                    <Chart 
-                        options={barChartData.options} 
-                        series={barChartData.series} 
-                        type="bar" 
-                        height={350} 
-                    />
-                </div>
-            </>
-        ) : (
-            <div>Loading...</div>
-        )}
-    </div>
+            <h2 className="text-2xl font-bold text-center mb-6">Dashboard Statistics</h2>
+            <div className="chart-container mb-8">
+                <Chart 
+                    options={barChartData.options} 
+                    series={barChartData.series} 
+                    type="bar" 
+                    height={350} 
+                />
+            </div>
+            <div className="chart-container mb-8">
+                <Chart 
+                    options={lineChartData.options} 
+                    series={lineChartData.series} 
+                    type="line" 
+                    height={350} 
+                />
+            </div>
+        </div>
     );
 };
 

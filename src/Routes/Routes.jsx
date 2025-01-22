@@ -14,6 +14,7 @@ import MyProfile from "@/pages/Dashboard/User/MyProfile";
 import UserRoute from "./UserRoute";
 import AdminRoute from "./AdminRoute";
 import Statistics from "@/pages/Dashboard/Admin/Statistics";
+import AllParcels from "@/pages/Dashboard/Admin/AllParcels";
 
 export const router = createBrowserRouter([
     {
@@ -80,6 +81,14 @@ export const router = createBrowserRouter([
                 element: <PrivateRoute>
                     <AdminRoute>
                         <Statistics></Statistics>
+                    </AdminRoute>
+                </PrivateRoute>
+            },
+            {
+                path: 'all-parcels',
+                element: <PrivateRoute>
+                    <AdminRoute>
+                        <AllParcels></AllParcels>
                     </AdminRoute>
                 </PrivateRoute>
             }
