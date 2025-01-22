@@ -1,124 +1,217 @@
-import React, { useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import useAxiosSecure from "@/hooks/useAxiosSecure";
+import { useState } from "react";
+import { useLoaderData } from "react-router-dom";
 import Swal from "sweetalert2";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import useAuth from "@/hooks/useAuth";
 
 const UpdateParcel = () => {
-  const { id } = useParams(); // Get parcel ID from URL
-  const navigate = useNavigate();
-  const axiosSecure = useAxiosSecure();
-  const queryClient = useQueryClient();
-  const [formData, setFormData] = useState({});
+    const { _id, phoneNumber, parcelType, parcelWeight, receiverName, receiverPhoneNumber, deliveryAddress, requestedDate, latitude, longitude, price } = useLoaderData();
+    const axiosSecure = useAxiosSecure();
+    const {user} = useAuth()
 
-  // Fetch parcel data using react-query
-  const { data: parcel, isLoading } = useQuery({
-    queryKey: ["parcel", id],
-    queryFn: async () => {
-      const response = await axiosSecure.get(`/parcels/${id}`);
-      return response.data;
-    },
-    enabled: !!id, // Ensure ID is available before making the query
-  });
+    const [formData, setFormData] = useState({
+        phoneNumber: phoneNumber || "",
+        parcelType: parcelType || "",
+        parcelWeight: parcelWeight || "",
+        receiverName: receiverName || "",
+        receiverPhoneNumber: receiverPhoneNumber || "",
+        deliveryAddress: deliveryAddress || "",
+        requestedDate: requestedDate || "",
+        latitude: latitude || "",
+        longitude: longitude || "",
+        price: price || "",
+    });
 
-  // Mutation for updating the parcel
-  const mutation = useMutation({
-    mutationFn: async (updatedParcel) =>
-      await axiosSecure.patch(`/parcels/${id}`, updatedParcel),
-    onSuccess: () => {
-      queryClient.invalidateQueries(["parcel", id]);
-      Swal.fire("Success!", "Parcel updated successfully!", "success");
-      navigate("/my-parcels"); // Redirect after update
-    },
-    onError: (error) => {
-      console.error("Failed to update parcel:", error);
-      Swal.fire("Error", "Failed to update parcel. Please try again.", "error");
-    },
-  });
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData((prevData) => ({
+            ...prevData,
+            [name]: value,
+        }));
+    };
 
-  // Handle form input change
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
+    const handleSubmit = async (e) => {
+        e.preventDefault();
 
-  // Handle form submission
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    mutation.mutate(formData);
-  };
+        const updatedParcel = {
+            phoneNumber: formData.phoneNumber,
+            parcelType: formData.parcelType,
+            parcelWeight: formData.parcelWeight,
+            receiverName: formData.receiverName,
+            receiverPhoneNumber: formData.receiverPhoneNumber,
+            deliveryAddress: formData.deliveryAddress,
+            latitude: formData.latitude,
+            longitude: formData.longitude,
+            price: parseFloat(formData.price),
+            status: "pending"
+        };
 
-  if (isLoading) {
-    return <p>Loading...</p>;
-  }
+        try {
+            const response = await axiosSecure.patch(`/parcels/${_id}`, updatedParcel);
+            if (response.data.modifiedCount > 0) {
+                Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: `Parcel updated successfully`,
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                
+            }
+        } catch (error) {
+            Swal.fire({
+                position: "center",
+                icon: "error",
+                title: "Error updating parcel",
+                showConfirmButton: false,
+                timer: 1500
+            });
+        }
+    };
 
-  if (!parcel) {
-    return <p>Parcel not found!</p>;
-  }
+    return (
+        <div className="card lg:w-full shrink-0 shadow-2xl mx-auto">
+            <h1 className='text-3xl font-bold text-[#ca6602] m-4 text-center'>Update Parcel</h1>
+            <form onSubmit={handleSubmit} className="space-y-4 card-body">
+                <div className='flex flex-col lg:flex-row gap-5'>
+                    <div className="form-control flex-1">
+                        <label>Name</label>
+                        <input
+                            type="text"
+                            value={user?.displayName || ''}
+                            readOnly
+                            className="w-full p-2 border rounded bg-gray-100"
+                        />
+                    </div>
+                    <div className="form-control flex-1">
+                        <label>Email</label>
+                        <input
+                            type="email"
+                            value={user?.email || ''}
+                            readOnly
+                            className="w-full p-2 border rounded bg-gray-100"
+                        />
+                    </div>
+                </div>
+                <div className='flex flex-col lg:flex-row gap-5'>
+                    <div className="form-control flex-1">
+                        <label>Phone Number</label>
+                        <input
+                            type="text"
+                            name="phoneNumber"
+                            value={formData.phoneNumber}
+                            onChange={handleChange}
+                            className="w-full p-2 border rounded"
+                        />
+                    </div>
+                    <div className="form-control flex-1">
+                        <label>Parcel Type</label>
+                        <input
+                            type="text"
+                            name="parcelType"
+                            value={formData.parcelType}
+                            onChange={handleChange}
+                            className="w-full p-2 border rounded"
+                        />
+                    </div>
+                </div>
+                <div className='flex flex-col lg:flex-row gap-5'>
+                    <div className="form-control flex-1">
+                        <label>Parcel Weight (kg)</label>
+                        <input
+                            type="number"
+                            name="parcelWeight"
+                            value={formData.parcelWeight}
+                            onChange={handleChange}
+                            className="w-full p-2 border rounded"
+                        />
+                    </div>
+                    <div className="form-control flex-1">
+                        <label>Receiver’s Name</label>
+                        <input
+                            type="text"
+                            name="receiverName"
+                            value={formData.receiverName}
+                            onChange={handleChange}
+                            className="w-full p-2 border rounded"
+                        />
+                    </div>
+                </div>
+                <div className='flex flex-col lg:flex-row gap-5'>
+                    <div className="form-control flex-1">
+                        <label>Receiver's Phone Number</label>
+                        <input
+                            type="text"
+                            name="receiverPhone"
+                            value={formData.receiverPhoneNumber}
+                            onChange={handleChange}
+                            className="w-full p-2 border rounded"
+                        />
+                    </div>
+                    <div className="form-control flex-1">
+                        <label>Parcel Delivery Address</label>
+                        <input
+                            type="text"
+                            name="deliveryAddress"
+                            value={formData.deliveryAddress}
+                            onChange={handleChange}
+                            className="w-full p-2 border rounded"
+                        />
+                    </div>
+                </div>
+                <div className='flex flex-col lg:flex-row gap-5'>
+                    <div className="form-control flex-1">
+                        <label>Requested Delivery Date</label>
+                        <input
+                            type="date"
+                            name="requestedDate"
+                            value={formData.requestedDate}
+                            onChange={handleChange}
+                            className="w-full p-2 border rounded"
+                        />
+                    </div>
+                    <div className="form-control flex-1">
+                        <label>Delivery Address Latitude</label>
+                        <input
+                            type="number"
+                            name="latitude"
+                            value={formData.latitude}
+                            onChange={handleChange}
+                            className="w-full p-2 border rounded"
+                        />
+                    </div>
+                </div>
+                <div className='flex flex-col lg:flex-row gap-5'>
+                    <div className="form-control flex-1">
+                        <label>Delivery Address Longitude</label>
+                        <input
+                            type="number"
+                            name="longitude"
+                            value={formData.longitude}
+                            onChange={handleChange}
+                            className="w-full p-2 border rounded"
+                        />
+                    </div>
+                    <div className="form-control flex-1">
+                        <label>Price (Tk)</label>
+                        <input
+                            type="text"
+                            value={formData.price}
+                            readOnly
+                            className="w-full p-2 border rounded bg-gray-100"
+                        />
+                    </div>
+                </div>
 
-  // Disable form if the parcel status is not pending
-  const isDisabled = parcel.status !== "pending";
-
-  return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold text-center mb-6">Update Parcel</h1>
-      <form onSubmit={handleSubmit} className="max-w-lg mx-auto space-y-4">
-        <div>
-          <label className="block mb-2">Parcel Type</label>
-          <input
-            type="text"
-            name="parcelType"
-            defaultValue={parcel.parcelType}
-            onChange={handleChange}
-            disabled={isDisabled}
-            className="border rounded p-2 w-full"
-          />
+                <button
+                    type="submit"
+                    className="bg-[#ca6602] text-white px-4 py-2 rounded hover:bg-[#854200]"
+                >
+                    Update Parcel
+                </button>
+            </form>
         </div>
-        <div>
-          <label className="block mb-2">Requested Delivery Date</label>
-          <input
-            type="date"
-            name="requestedDate"
-            defaultValue={parcel.requestedDate}
-            onChange={handleChange}
-            disabled={isDisabled}
-            className="border rounded p-2 w-full"
-          />
-        </div>
-        <div>
-          <label className="block mb-2">Delivery Address</label>
-          <input
-            type="text"
-            name="deliveryAddress"
-            defaultValue={parcel.deliveryAddress}
-            onChange={handleChange}
-            disabled={isDisabled}
-            className="border rounded p-2 w-full"
-          />
-        </div>
-        <div>
-          <label className="block mb-2">Price</label>
-          <input
-            type="number"
-            name="price"
-            defaultValue={parcel.price}
-            onChange={handleChange}
-            disabled={isDisabled}
-            className="border rounded p-2 w-full"
-          />
-        </div>
-        <button
-          type="submit"
-          disabled={isDisabled || mutation.isLoading}
-          className={`${
-            isDisabled ? "bg-gray-400" : "bg-blue-500"
-          } text-white px-4 py-2 rounded`}
-        >
-          {isDisabled ? "Cannot Update (Status Not Pending)" : "Update Parcel"}
-        </button>
-      </form>
-    </div>
-  );
+    );
 };
 
 export default UpdateParcel;

@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import useAuth from '@/hooks/useAuth';
 import useAxiosSecure from '@/hooks/useAxiosSecure';
 import Swal from 'sweetalert2';
+import { Link } from 'react-router-dom';
 
 const MyParcels = () => {
     const { user } = useAuth();
@@ -111,13 +112,15 @@ const MyParcels = () => {
                             <td className="border border-gray-300 px-4 py-2">{parcel.deliveryMenId || 'N/A'}</td>
                             <td className="border border-gray-300 px-4 py-2 capitalize">{parcel.status}</td>
                             <td className="border border-gray-300 px-4 py-2">
-                                <button
-                                    className="bg-blue-500 text-white px-2 py-1 rounded mr-2 disabled:bg-gray-400"
-                                    disabled={parcel.status !== 'pending'}
-                                    onClick={() => window.location.href = `/update-booking/${parcel._id}`}
-                                >
-                                    Update
-                                </button>
+                                <Link to={`/dashboard/update-parcel/${parcel._id}`}>
+                                    <button
+                                        className="bg-blue-500 text-white px-2 py-1 rounded mr-2 disabled:bg-gray-400"
+                                        disabled={parcel.status !== 'pending'}
+                                    // onClick={() => window.location.href = `/update-booking/${parcel._id}`}
+                                    >
+                                        Update
+                                    </button>
+                                </Link>
                                 <button
                                     className="bg-red-500 text-white px-2 py-1 rounded mr-2 disabled:bg-gray-400"
                                     disabled={parcel.status !== 'pending'} // শুধু pending হলে সক্রিয় থাকবে

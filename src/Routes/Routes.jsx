@@ -56,6 +56,13 @@ export const router = createBrowserRouter([
                 element: <PrivateRoute>
                     <MyProfile></MyProfile>
                 </PrivateRoute>
+            },
+            {
+                path: 'update-parcel/:id',
+                element: <PrivateRoute>
+                    <UpdateParcel></UpdateParcel>
+                </PrivateRoute>,
+                loader: ({params}) => fetch(`http://localhost:5000/parcels/${params.id}`)
             }
         ],
     }
