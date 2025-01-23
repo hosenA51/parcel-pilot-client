@@ -9,10 +9,29 @@ const AllParcels = () => {
 
     const { data: parcels, refetch: refetchParcels, isLoading, error } = useQuery({
         queryKey: ['parcels', search],
-        queryFn: () => axios.get('/parcels', { params: { from: search.from, to: search.to } })
-            .then(response => response.data),
-        enabled: false  // Prevent automatic refetch on mount
+        queryFn: () => {
+            const params = {};
+            if (search.from) params.from = search.from;
+            if (search.to) params.to = search.to;
+
+            return axios.get('/parcels', { params })
+                .then(response => response.data)
+                .catch(error => {
+                    console.error("Error fetching parcels:", error);
+                    return []; // Return an empty array in case of error
+                });
+        },
+        enabled: !!search.from || !!search.to,  // Query will only run if at least one of search fields is provided
+        refetchOnWindowFocus: false,  // To prevent refetching on window focus
+        onSuccess: data => {
+            console.log('Fetched parcels data:', data);
+        },
+        onError: error => {
+            console.error('Error fetching parcels:', error);
+        }
     });
+
+    console.log("Parcels Data: ", parcels);
 
     const { data: deliveryMen } = useQuery({
         queryKey: ['deliveryMen'],
@@ -20,6 +39,10 @@ const AllParcels = () => {
     });
 
     const handleSearch = () => {
+        if (search.from && search.to && new Date(search.from) > new Date(search.to)) {
+            alert('The "From" date cannot be later than the "To" date.');
+            return;
+        }
         refetchParcels(); // Refetch the parcels data when search is triggered
     };
 
@@ -38,6 +61,7 @@ const AllParcels = () => {
             refetchParcels();  // Refetch parcels after assigning
             setModalData(null); // Close the modal after successful assignment
         } catch (error) {
+            alert('Error assigning delivery man. Please try again.');
             console.error('Error assigning delivery man:', error);
         }
     };
@@ -61,7 +85,9 @@ const AllParcels = () => {
                     value={search.to}
                     onChange={e => setSearch({ ...search, to: e.target.value })}
                 />
-                <button onClick={handleSearch}>Search</button>
+                <button onClick={handleSearch} disabled={!search.from && !search.to}>
+                    Search
+                </button>
             </div>
 
             <table>
@@ -83,7 +109,7 @@ const AllParcels = () => {
                                 <td>{parcel.senderName}</td>
                                 <td>{parcel.phoneNumber}</td>
                                 <td>{moment(parcel.bookingDate).format('YYYY-MM-DD')}</td>
-                                <td>{parcel.requestedDate}</td>
+                                <td>{moment(parcel.requestedDate).format('YYYY-MM-DD')}</td>
                                 <td>${parcel.price}</td>
                                 <td>{parcel.status}</td>
                                 <td>
