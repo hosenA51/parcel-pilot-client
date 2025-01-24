@@ -53,15 +53,13 @@ const AuthProvider = ({ children }) => {
             setLoading(true);
             if (currentUser) {
                 try {
-                    // Fetch additional user data from your database
                     const { data } = await axios.get(
                         `${import.meta.env.VITE_API_URL}/users/role/${currentUser.email}`
                     );
                     
-                    // Combine Firebase user data with additional data
                     const enrichedUser = {
                         ...currentUser,
-                        ...data // Add role, phone, or other data
+                        ...data 
                     };
 
                     setUser(enrichedUser);

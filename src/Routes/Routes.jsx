@@ -15,12 +15,18 @@ import UserRoute from "./UserRoute";
 import AdminRoute from "./AdminRoute";
 import Statistics from "@/pages/Dashboard/Admin/Statistics";
 import AllParcels from "@/pages/Dashboard/Admin/AllParcels";
+import ErrorPage from "@/pages/ErrorPage/ErrorPage";
 import AllDeliveryMen from "@/pages/Dashboard/Admin/AllDeliveryMen";
+import AllUsers from "@/pages/Dashboard/Admin/AllUsers";
+import MyReviews from "@/pages/Dashboard/DeliveryMen/MyReviews";
+import MyDeliveryList from "@/pages/Dashboard/DeliveryMen/MyDeliveryList";
+import DeliveryMenRoute from "./DeliveryMenRoute";
 
 export const router = createBrowserRouter([
     {
         path: "/",
         element: <MainLayout></MainLayout>,
+        errorElement: <ErrorPage></ErrorPage>,
         children: [
             {
                 path: '/',
@@ -94,11 +100,35 @@ export const router = createBrowserRouter([
                 </PrivateRoute>
             },
             {
-                path: 'all-Delivery-men',
+                path: 'all-delivery-men',
                 element: <PrivateRoute>
                     <AdminRoute>
                         <AllDeliveryMen></AllDeliveryMen>
                     </AdminRoute>
+                </PrivateRoute>
+            },
+            {
+                path: 'all-users',
+                element: <PrivateRoute>
+                    <AdminRoute>
+                        <AllUsers></AllUsers>
+                    </AdminRoute>
+                </PrivateRoute>
+            },
+            {
+                path: 'my-delivery-list',
+                element: <PrivateRoute>
+                    <DeliveryMenRoute>
+                        <MyDeliveryList></MyDeliveryList>
+                    </DeliveryMenRoute>
+                </PrivateRoute>
+            },
+            {
+                path: 'my-reviews',
+                element: <PrivateRoute>
+                    <DeliveryMenRoute>
+                        <MyReviews></MyReviews>
+                    </DeliveryMenRoute>
                 </PrivateRoute>
             }
         ],

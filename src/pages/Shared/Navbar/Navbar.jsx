@@ -70,7 +70,7 @@ const Navbar = () => {
                                                     <>
                                                         <p className='px-4 py-3 hover:bg-slate-400 transition rounded-xl font-semibold'>{user?.displayName}</p>
                                                         <Link
-                                                            to='/dashboard/my-profile'
+                                                            to='/dashboard'
                                                             className='px-4 py-3 hover:bg-slate-400 transition rounded-xl font-semibold'
                                                         >
                                                             Dashboard
