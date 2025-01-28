@@ -68,7 +68,7 @@ const Sidebar = () => {
                             {/*  Menu Items */}
                             {role === 'admin' && <AdminMenu />}
                             {role === 'user' && <UserMenu />}
-                            {role === 'delivery Men' && <DeliveryMenMenu />}
+                            {role === 'delivery-men' && <DeliveryMenMenu />}
                         </nav>
                         <div className='h-1 w-60 bg-[#ca6602] rounded-full'></div>
                         <NavLink

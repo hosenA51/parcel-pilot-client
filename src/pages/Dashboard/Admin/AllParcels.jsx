@@ -42,25 +42,51 @@ const AllParcels = () => {
     setModalOpen(true);
   };
 
+  // const handleAssign = async () => {
+  //   try {
+  //     await axios.patch(`http://localhost:5000/parcels/assign/${selectedParcel._id}`, {
+  //       deliveryManId: selectedDeliveryMan,
+  //       deliveryDate,
+  //     });
+
+  //     setModalOpen(false);
+  //     setSelectedParcel(null);
+  //     setDeliveryDate('');
+  //     setSelectedDeliveryMan('');
+  //     // Refetch parcels to reflect updates
+  //     const response = await axios.get('http://localhost:5000/parcels');
+  //     setParcels(response.data);
+  //   } catch (error) {
+  //     console.error("Error assigning delivery man:", error);
+  //   }
+  // };
+
   const handleAssign = async () => {
+    if (!selectedDeliveryMan) {
+      alert("Please select a delivery man before assigning.");
+      return;
+    }
+  
     try {
       await axios.patch(`http://localhost:5000/parcels/assign/${selectedParcel._id}`, {
         deliveryManId: selectedDeliveryMan,
         deliveryDate,
       });
-
-      // Close the modal and refresh the parcel list
+  
+      // ক্লিয়ার এবং রিফ্রেশ ডেটা
       setModalOpen(false);
       setSelectedParcel(null);
       setDeliveryDate('');
       setSelectedDeliveryMan('');
-      // Refetch parcels to reflect updates
+  
       const response = await axios.get('http://localhost:5000/parcels');
       setParcels(response.data);
     } catch (error) {
       console.error("Error assigning delivery man:", error);
+      alert("Failed to assign delivery man. Please try again.");
     }
   };
+  
 
   if (loading) {
     return <p>Loading...</p>;
@@ -111,16 +137,16 @@ const AllParcels = () => {
             <div className="mb-4">
               <label htmlFor="deliveryMan" className="block mb-2">Select Delivery Man</label>
               <select
-                id="deliveryMan"
-                value={selectedDeliveryMan}
-                onChange={(e) => setSelectedDeliveryMan(e.target.value)}
-                className="w-full border px-3 py-2"
-              >
-                <option value="">Select Delivery Man</option>
-                {deliveryMen.map((man) => (
-                  <option key={man._id} value={man._id}>{man.name}</option>
-                ))}
-              </select>
+  id="deliveryMan"
+  value={selectedDeliveryMan}
+  onChange={(e) => setSelectedDeliveryMan(e.target.value)}
+  className="w-full border px-3 py-2"
+>
+  <option value="">Select Delivery Man</option>
+  {deliveryMen.map((man) => (
+    <option key={man._id} value={man._id}>{man.name}</option>
+  ))}
+</select>
             </div>
             <div className="mb-4">
               <label htmlFor="deliveryDate" className="block mb-2">Approximate Delivery Date</label>
