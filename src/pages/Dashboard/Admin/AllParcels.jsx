@@ -45,19 +45,18 @@ const AllParcels = () => {
       alert("Please select a delivery man before assigning.");
       return;
     }
-  
+
     try {
       await axios.patch(`https://parcel-pilot-server.vercel.app/parcels/assign/${selectedParcel._id}`, {
         deliveryManId: selectedDeliveryMan,
         deliveryDate,
       });
-  
-      // ক্লিয়ার এবং রিফ্রেশ ডেটা
+
       setModalOpen(false);
       setSelectedParcel(null);
       setDeliveryDate('');
       setSelectedDeliveryMan('');
-  
+
       const response = await axios.get('https://parcel-pilot-server.vercel.app/parcels');
       setParcels(response.data);
     } catch (error) {
@@ -65,7 +64,7 @@ const AllParcels = () => {
       alert("Failed to assign delivery man. Please try again.");
     }
   };
-  
+
   if (loading) {
     return <p>Loading...</p>;
   }
@@ -73,57 +72,59 @@ const AllParcels = () => {
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4">All Parcels</h1>
-      <table className="table-auto w-full border-collapse border border-gray-300">
-        <thead>
-          <tr>
-            <th className="border border-gray-300 px-4 py-2">User's Name</th>
-            <th className="border border-gray-300 px-4 py-2">User's Phone</th>
-            <th className="border border-gray-300 px-4 py-2">Booking Date</th>
-            <th className="border border-gray-300 px-4 py-2">Requested Delivery Date</th>
-            <th className="border border-gray-300 px-4 py-2">Cost</th>
-            <th className="border border-gray-300 px-4 py-2">Status</th>
-            <th className="border border-gray-300 px-4 py-2">Manage</th>
-          </tr>
-        </thead>
-        <tbody>
-          {parcels.map((parcel) => (
-            <tr key={parcel._id}>
-              <td className="border border-gray-300 px-4 py-2">{parcel.senderName}</td>
-              <td className="border border-gray-300 px-4 py-2">{parcel.phoneNumber}</td>
-              <td className="border border-gray-300 px-4 py-2">{new Date(parcel.bookingDate).toLocaleDateString()}</td>
-              <td className="border border-gray-300 px-4 py-2">{new Date(parcel.requestedDate).toLocaleDateString()}</td>
-              <td className="border border-gray-300 px-4 py-2">{parcel.price}</td>
-              <td className="border border-gray-300 px-4 py-2">{parcel.status}</td>
-              <td className="border border-gray-300 px-4 py-2">
-                <button
-                  onClick={() => handleManageClick(parcel)}
-                  className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-                >
-                  Manage
-                </button>
-              </td>
+      <div className="overflow-x-auto">
+        <table className="table-auto w-full border-collapse border border-gray-300 text-sm md:text-base">
+          <thead>
+            <tr className="bg-gray-100">
+              <th className="border border-gray-300 px-4 py-2">User's Name</th>
+              <th className="border border-gray-300 px-4 py-2">User's Phone</th>
+              <th className="border border-gray-300 px-4 py-2">Booking Date</th>
+              <th className="border border-gray-300 px-4 py-2">Requested Delivery Date</th>
+              <th className="border border-gray-300 px-4 py-2">Cost</th>
+              <th className="border border-gray-300 px-4 py-2">Status</th>
+              <th className="border border-gray-300 px-4 py-2">Manage</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {parcels.map((parcel) => (
+              <tr key={parcel._id} className="hover:bg-gray-50">
+                <td className="border border-gray-300 px-4 py-2 truncate">{parcel.senderName}</td>
+                <td className="border border-gray-300 px-4 py-2 truncate">{parcel.phoneNumber}</td>
+                <td className="border border-gray-300 px-4 py-2 truncate">{new Date(parcel.bookingDate).toLocaleDateString()}</td>
+                <td className="border border-gray-300 px-4 py-2 truncate">{new Date(parcel.requestedDate).toLocaleDateString()}</td>
+                <td className="border border-gray-300 px-4 py-2 truncate">{parcel.price}</td>
+                <td className="border border-gray-300 px-4 py-2 truncate">{parcel.status}</td>
+                <td className="border border-gray-300 px-4 py-2 text-center">
+                  <button
+                    onClick={() => handleManageClick(parcel)}
+                    className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                  >
+                    Manage
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
 
       {modalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-          <div className="bg-white p-6 rounded-lg w-1/3">
+          <div className="bg-white p-6 rounded-lg w-11/12 max-w-md">
             <h2 className="text-xl font-bold mb-4">Assign Delivery Man</h2>
             <div className="mb-4">
               <label htmlFor="deliveryMan" className="block mb-2">Select Delivery Man</label>
               <select
-  id="deliveryMan"
-  value={selectedDeliveryMan}
-  onChange={(e) => setSelectedDeliveryMan(e.target.value)}
-  className="w-full border px-3 py-2"
->
-  <option value="">Select Delivery Man</option>
-  {deliveryMen.map((man) => (
-    <option key={man._id} value={man._id}>{man.name}</option>
-  ))}
-</select>
+                id="deliveryMan"
+                value={selectedDeliveryMan}
+                onChange={(e) => setSelectedDeliveryMan(e.target.value)}
+                className="w-full border px-3 py-2 rounded"
+              >
+                <option value="">Select Delivery Man</option>
+                {deliveryMen.map((man) => (
+                  <option key={man._id} value={man._id}>{man.name}</option>
+                ))}
+              </select>
             </div>
             <div className="mb-4">
               <label htmlFor="deliveryDate" className="block mb-2">Approximate Delivery Date</label>
@@ -132,13 +133,13 @@ const AllParcels = () => {
                 id="deliveryDate"
                 value={deliveryDate}
                 onChange={(e) => setDeliveryDate(e.target.value)}
-                className="w-full border px-3 py-2"
+                className="w-full border px-3 py-2 rounded"
               />
             </div>
             <div className="flex justify-between">
               <button
                 onClick={() => setModalOpen(false)}
-                className="px-4 py-2 bg-gray-500 text-white rounded"
+                className="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600"
               >
                 Close
               </button>

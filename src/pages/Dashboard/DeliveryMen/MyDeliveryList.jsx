@@ -14,7 +14,7 @@ const MyDeliveryList = () => {
         setLoading(false);
         return;
       }
-  
+
       try {
         const response = await axios.get(
           `https://parcel-pilot-server.vercel.app/parcels?deliveryManId=${user._id}`
@@ -26,7 +26,7 @@ const MyDeliveryList = () => {
         setLoading(false);
       }
     };
-  
+
     fetchParcels();
   }, [user]);
 
@@ -78,15 +78,15 @@ const MyDeliveryList = () => {
 
   if (loading) {
     return <p>Loading your deliveries...</p>;
-}
+  }
 
-if (!user) {
+  if (!user) {
     return <p>Please log in to view your deliveries.</p>;
-}
+  }
 
-if (parcels.length === 0) {
+  if (parcels.length === 0) {
     return <p>No parcels assigned to you yet.</p>;
-}
+  }
 
   return (
     <div className="container mx-auto p-4">
@@ -94,34 +94,79 @@ if (parcels.length === 0) {
       {parcels.length === 0 ? (
         <p>No parcels assigned to you.</p>
       ) : (
-        <table className="table-auto w-full border-collapse border border-gray-300">
-          <thead>
-            <tr>
-              <th className="border border-gray-300 px-4 py-2">Booked User's Name</th>
-              <th className="border border-gray-300 px-4 py-2">Receiver's Name</th>
-              <th className="border border-gray-300 px-4 py-2">Booked User's Phone</th>
-              <th className="border border-gray-300 px-4 py-2">Requested Delivery Date</th>
-              <th className="border border-gray-300 px-4 py-2">Approximate Delivery Date</th>
-              <th className="border border-gray-300 px-4 py-2">Receiver's Phone</th>
-              <th className="border border-gray-300 px-4 py-2">Receiver's Address</th>
-              <th className="border border-gray-300 px-4 py-2">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
+        <div className="overflow-x-auto">
+          <table className="table-auto w-full border-collapse border border-gray-300 hidden md:table">
+            <thead>
+              <tr>
+                <th className="border border-gray-300 px-4 py-2">Booked User's Name</th>
+                <th className="border border-gray-300 px-4 py-2">Receiver's Name</th>
+                <th className="border border-gray-300 px-4 py-2">Booked User's Phone</th>
+                <th className="border border-gray-300 px-4 py-2">Requested Delivery Date</th>
+                <th className="border border-gray-300 px-4 py-2">Approximate Delivery Date</th>
+                <th className="border border-gray-300 px-4 py-2">Receiver's Phone</th>
+                <th className="border border-gray-300 px-4 py-2">Receiver's Address</th>
+                <th className="border border-gray-300 px-4 py-2">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {parcels.map((parcel) => (
+                <tr key={parcel._id}>
+                  <td className="border border-gray-300 px-4 py-2">{parcel.senderName}</td>
+                  <td className="border border-gray-300 px-4 py-2">{parcel.receiverName}</td>
+                  <td className="border border-gray-300 px-4 py-2">{parcel.phoneNumber}</td>
+                  <td className="border border-gray-300 px-4 py-2">
+                    {new Date(parcel.requestedDate).toLocaleDateString()}
+                  </td>
+                  <td className="border border-gray-300 px-4 py-2">
+                    {new Date(parcel.deliveryDate).toLocaleDateString()}
+                  </td>
+                  <td className="border border-gray-300 px-4 py-2">{parcel.receiverPhoneNumber}</td>
+                  <td className="border border-gray-300 px-4 py-2">{parcel.deliveryAddress}</td>
+                  <td className="border border-gray-300 px-4 py-2">
+                    <button
+                      onClick={() =>
+                        window.open(
+                          `https://maps.google.com?q=${parcel.latitude},${parcel.longitude}`,
+                          "_blank"
+                        )
+                      }
+                      className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 mr-2"
+                    >
+                      View Location
+                    </button>
+                    <button
+                      onClick={() => handleCancel(parcel._id)}
+                      className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 mr-2"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      onClick={() => handleDeliver(parcel._id)}
+                      className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                    >
+                      Deliver
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+
+          {/* Responsive Card View */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:hidden">
             {parcels.map((parcel) => (
-              <tr key={parcel._id}>
-                <td className="border border-gray-300 px-4 py-2">{parcel.senderName}</td>
-                <td className="border border-gray-300 px-4 py-2">{parcel.receiverName}</td>
-                <td className="border border-gray-300 px-4 py-2">{parcel.phoneNumber}</td>
-                <td className="border border-gray-300 px-4 py-2">
-                  {new Date(parcel.requestedDate).toLocaleDateString()}
-                </td>
-                <td className="border border-gray-300 px-4 py-2">
-                  {new Date(parcel.deliveryDate).toLocaleDateString()}
-                </td>
-                <td className="border border-gray-300 px-4 py-2">{parcel.receiverPhoneNumber}</td>
-                <td className="border border-gray-300 px-4 py-2">{parcel.deliveryAddress}</td>
-                <td className="border border-gray-300 px-4 py-2">
+              <div
+                key={parcel._id}
+                className="border border-gray-300 p-4 rounded-lg shadow-md"
+              >
+                <p><strong>Booked User's Name:</strong> {parcel.senderName}</p>
+                <p><strong>Receiver's Name:</strong> {parcel.receiverName}</p>
+                <p><strong>Booked User's Phone:</strong> {parcel.phoneNumber}</p>
+                <p><strong>Requested Delivery Date:</strong> {new Date(parcel.requestedDate).toLocaleDateString()}</p>
+                <p><strong>Approximate Delivery Date:</strong> {new Date(parcel.deliveryDate).toLocaleDateString()}</p>
+                <p><strong>Receiver's Phone:</strong> {parcel.receiverPhoneNumber}</p>
+                <p><strong>Receiver's Address:</strong> {parcel.deliveryAddress}</p>
+                <div className="mt-4">
                   <button
                     onClick={() =>
                       window.open(
@@ -145,11 +190,11 @@ if (parcels.length === 0) {
                   >
                     Deliver
                   </button>
-                </td>
-              </tr>
+                </div>
+              </div>
             ))}
-          </tbody>
-        </table>
+          </div>
+        </div>
       )}
     </div>
   );
