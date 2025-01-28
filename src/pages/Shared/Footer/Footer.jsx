@@ -7,7 +7,6 @@ const Footer = () => {
     return (
         <footer className="relative bg-[#1A202C] text-white py-10 overflow-hidden">
             <div className="md:w-10/12 mx-auto">
-                {/* Animated Shapes */}
                 <motion.div
                     className="absolute top-10 left-10 w-40 h-40 rounded-full bg-[#ca6602] opacity-30"
                     animate={{
@@ -34,7 +33,6 @@ const Footer = () => {
                 ></motion.div>
 
                 <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-5 md:px-0 relative z-10 my-4">
-                    {/* Logo and About */}
                     <Fade>
                         <div>
                             <div className="flex items-center gap-3 mb-3">
@@ -50,7 +48,6 @@ const Footer = () => {
                         </div>
                     </Fade>
 
-                    {/* Quick Links */}
                     <Zoom>
                         <div>
                             <h3 className="text-xl font-bold mb-3">Quick Links</h3>
@@ -71,7 +68,6 @@ const Footer = () => {
                         </div>
                     </Zoom>
 
-                    {/* Subscribe */}
                     <Fade delay={200}>
                         <div>
                             <h3 className="text-xl font-bold mb-3">Stay Updated</h3>
@@ -94,8 +90,6 @@ const Footer = () => {
                         </div>
                     </Fade>
                 </div>
-
-                {/* Copyright */}
                 <div className="mt-10 text-center text-gray-500 text-sm border-t border-gray-700 pt-5 relative z-10">
                     <Fade delay={400}>
                         <p>

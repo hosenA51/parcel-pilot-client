@@ -44,7 +44,7 @@ const Statistics = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const bookingsResponse = await axios.get('http://localhost:5000/parcels');
+        const bookingsResponse = await axios.get('https://parcel-pilot-server.vercel.app/parcels');
         const parcels = bookingsResponse.data;
 
         const bookingsByDate = parcels.reduce((acc, parcel) => {

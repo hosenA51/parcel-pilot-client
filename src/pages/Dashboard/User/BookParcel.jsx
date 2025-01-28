@@ -113,9 +113,6 @@ const BookParcel = () => {
                     price: 0,
                 });
             }
-            
-            console.log(response.data)
-
         } catch (error) {
             console.error(error?.response?.data?.message || 'Failed to book parcel. Please try again.');
             toast.error(error?.response?.data?.message || 'Failed to book parcel. Please try again.');

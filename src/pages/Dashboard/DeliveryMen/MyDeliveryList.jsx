@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import useAuth from "@/hooks/useAuth";
-import Swal from "sweetalert2";  // Import SweetAlert2
+import Swal from "sweetalert2";
 
 const MyDeliveryList = () => {
   const { user } = useAuth();
@@ -11,14 +11,13 @@ const MyDeliveryList = () => {
   useEffect(() => {
     const fetchParcels = async () => {
       if (!user) {
-        console.log("User is not logged in.");
         setLoading(false);
         return;
       }
   
       try {
         const response = await axios.get(
-          `http://localhost:5000/parcels?deliveryManId=${user._id}`
+          `https://parcel-pilot-server.vercel.app/parcels?deliveryManId=${user._id}`
         );
         setParcels(response.data);
       } catch (error) {
@@ -28,7 +27,6 @@ const MyDeliveryList = () => {
       }
     };
   
-    console.log("Logged-in user:", user._id); 
     fetchParcels();
   }, [user]);
 
@@ -43,7 +41,7 @@ const MyDeliveryList = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          await axios.patch(`http://localhost:5000/parcels/${parcelId}`, {
+          await axios.patch(`https://parcel-pilot-server.vercel.app/parcels/${parcelId}`, {
             status: "Cancelled",
           });
           setParcels((prev) => prev.filter((parcel) => parcel._id !== parcelId));
@@ -66,7 +64,7 @@ const MyDeliveryList = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          await axios.patch(`http://localhost:5000/parcels/${parcelId}`, {
+          await axios.patch(`https://parcel-pilot-server.vercel.app/parcels/${parcelId}`, {
             status: "Delivered",
           });
           setParcels((prev) => prev.filter((parcel) => parcel._id !== parcelId));

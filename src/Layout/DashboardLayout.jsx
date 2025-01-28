@@ -1,17 +1,29 @@
 import Sidebar from '@/components/Dashboard/Sidebar/Sidebar'
-import { Outlet, useLocation } from 'react-router-dom'
+import useRole from '@/hooks/useRole';
+import { useEffect } from 'react';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 
 const DashboardLayout = () => {
   const location = useLocation();
-  console.log('Current Path:', location.pathname);
+  const navigate = useNavigate();
+  const [role, isLoading] = useRole();
+
+  useEffect(() => {
+    if (!isLoading) {
+      if (role === "admin") {
+        navigate("/dashboard/statistics");
+      } else if (role === "delivery-men") {
+        navigate("/dashboard/my-delivery-list");
+      } else if (role === "user") {
+        navigate("/dashboard/my-profile");
+      }
+    }
+  }, [role, isLoading, navigate]);
   return (
     <div className='relative min-h-screen md:flex bg-white'>
-      {/* Left Side: Sidebar Component */}
       <Sidebar />
-      {/* Right Side: Dashboard Dynamic Content */}
       <div className='flex-1  md:ml-64'>
         <div className='p-5'>
-          {/* Outlet for dynamic contents */}
           <Outlet />
         </div>
       </div>

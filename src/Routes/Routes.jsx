@@ -81,7 +81,7 @@ export const router = createBrowserRouter([
                         <UpdateParcel></UpdateParcel>
                     </UserRoute>
                 </PrivateRoute>,
-                loader: ({ params }) => fetch(`http://localhost:5000/parcels/${params.id}`)
+                loader: ({ params }) => fetch(`https://parcel-pilot-server.vercel.app/parcels/${params.id}`)
             },
             {
                 path: 'statistics',

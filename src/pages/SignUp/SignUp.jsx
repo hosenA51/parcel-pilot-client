@@ -22,8 +22,6 @@ const SignUp = () => {
         const phone = form.phone.value
         const role = form.role.value;
 
-
-        //1. send image data to imgbb
         const photoURL = await imageUpload(image)
 
         if (password.length < 6) {
@@ -48,18 +46,13 @@ const SignUp = () => {
         }
 
         try {
-            //2. User Registration
             const result = await createUser(email, password)
 
-            //3. Save username & profile photo
             await updateUserProfile(name, photoURL)
-            console.log(result)
-            // save user info in db if the user is new
             await saveUser({ ...result?.user, displayName: name, photoURL, role, phone })
             navigate('/')
             toast.success('Signup Successful')
         } catch (err) {
-            console.log(err)
             toast.error(err?.message)
         }
     }
@@ -71,7 +64,6 @@ const SignUp = () => {
             navigate('/')
             toast.success('Signup Successful')
         } catch (err) {
-            console.log(err)
             toast.error(err?.message)
         }
     }

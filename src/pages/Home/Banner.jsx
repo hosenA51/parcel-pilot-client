@@ -7,8 +7,8 @@ const Banner = () => {
             className='min-h-screen flex flex-col justify-center items-center'
             style={{
                 backgroundImage: "url(https://i.ibb.co.com/2N89D3f/banner-img.webp)",
-                backgroundColor: "rgba(0, 0, 0, 0.6)", // Adding a dark overlay
-                backgroundBlendMode: "darken", // Ensuring the dark effect blends
+                backgroundColor: "rgba(0, 0, 0, 0.6)",
+                backgroundBlendMode: "darken",
                 backgroundSize: "cover",
                 backgroundPosition: "center"
             }}

@@ -24,7 +24,6 @@ const Login = () => {
         signIn(email, password)
             .then(result => {
                 const user = result.user;
-                console.log(user);
                 Swal.fire({
                     title: "Login Successful",
                     showClass: {
@@ -51,13 +50,11 @@ const Login = () => {
     }
     const handleGoogleSignIn = async () => {
         try {
-            //User Registration using google
             const data = await signInWithGoogle()
             await saveUser(data?.user)
             navigate('/')
             toast.success('Signup Successful')
         } catch (err) {
-            console.log(err)
             toast.error(err?.message)
         }
     }

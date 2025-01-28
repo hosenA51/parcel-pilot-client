@@ -30,9 +30,8 @@ const MyParcels = () => {
 
     const filteredParcels = filter === 'all' ? parcels : parcels.filter(parcel => parcel.status === filter);
 
-    // Handle modal open and close
     const openModal = (parcelId) => {
-        setCurrentParcelId(parcelId); // Set the current parcel ID
+        setCurrentParcelId(parcelId);
         setIsModalOpen(true);
     };
     const closeModal = () => setIsModalOpen(false);
@@ -158,7 +157,6 @@ const MyParcels = () => {
                 </tbody>
             </table>
 
-            {/* DaisyUI Modal for Review */}
             {isModalOpen && (
                 <div className="modal modal-open">
                     <div className="modal-box">

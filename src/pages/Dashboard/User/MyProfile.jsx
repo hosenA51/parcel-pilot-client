@@ -1,18 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { getAuth, updateProfile } from "firebase/auth";
 import axios from "axios";
-import { imageUpload, saveUser } from "@/api/utils";
+import { imageUpload } from "@/api/utils";
 import useAuth from "@/hooks/useAuth";
 import { toast, ToastContainer } from "react-toastify";
 
 const MyProfile = () => {
     const auth = getAuth();
     const { user } = useAuth();
-    //   const [ setUser] = useState(null);
     const [profilePicture, setProfilePicture] = useState("");
     const [newProfilePicture, setNewProfilePicture] = useState(null);
 
-    // Fetch logged-in user information
     useEffect(() => {
         const fetchUserData = async () => {
             const email = auth.currentUser?.email;
@@ -21,7 +19,6 @@ const MyProfile = () => {
                     const { data } = await axios.get(
                         `${import.meta.env.VITE_API_URL}/users/role/${email}`
                     );
-                    //   setUser(data);
                     setProfilePicture(data?.image || auth.currentUser.photoURL || "");
                 } catch (error) {
                     console.error("Error fetching user data:", error);
@@ -32,12 +29,10 @@ const MyProfile = () => {
         fetchUserData();
     }, [auth]);
 
-    // Handle file selection
     const handleFileChange = (e) => {
         setNewProfilePicture(e.target.files[0]);
     };
 
-    // Upload profile picture and update user
     const handleUpdateProfilePicture = async () => {
         if (!newProfilePicture) {
             toast.error("Please select a profile picture first!");
@@ -45,15 +40,12 @@ const MyProfile = () => {
         }
 
         try {
-            // Upload the new profile picture
             const imageUrl = await imageUpload(newProfilePicture);
 
-            // Update the profile picture in Firebase Authentication
             await updateProfile(auth.currentUser, {
                 photoURL: imageUrl,
             });
 
-            // Update the profile picture in the database
             const email = auth.currentUser?.email;
             if (email) {
                 await axios.patch(`${import.meta.env.VITE_API_URL}/users/${email}`, {
@@ -61,7 +53,6 @@ const MyProfile = () => {
                 });
             }
 
-            // Update the UI
             setProfilePicture(imageUrl);
             toast.success("Profile picture updated successfully!");
         } catch (error) {
@@ -69,10 +60,6 @@ const MyProfile = () => {
             toast.error("Failed to update profile picture.");
         }
     };
-
-
-    console.log(auth.currentUser)
-
     return (
         <div className="max-w-md mx-auto mt-10 p-6 bg-white shadow-lg rounded-lg">
             <h1 className="text-2xl font-bold text-center text-[#ca6602] mb-6">

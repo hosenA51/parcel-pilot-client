@@ -1,7 +1,6 @@
 import { HiClipboardDocumentList } from "react-icons/hi2";
 import { MdReviews } from 'react-icons/md'
 import MenuItem from './MenuItem'
-import { ImProfile } from "react-icons/im";
 const DeliveryMenMenu = () => {
   return (
     <>

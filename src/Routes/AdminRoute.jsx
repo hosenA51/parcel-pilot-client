@@ -12,7 +12,6 @@ const AdminRoute = ({ children }) => {
     if (role === 'admin') {
         return children;
     }
-    console.log('Role in AdminRoute:', role);
     return <Navigate to='/dashboard' state={{from: location}} replace='true'></Navigate>
 };
 

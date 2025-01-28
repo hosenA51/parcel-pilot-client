@@ -9,8 +9,7 @@ const OurFeatures = () => {
   });
 
   useEffect(() => {
-    // Fetch statistics from the backend
-    fetch("http://localhost:5000/statistics")
+    fetch("https://parcel-pilot-server.vercel.app/statistics")
       .then((res) => res.json())
       .then((data) => setStatistics(data))
       .catch((error) => console.error("Error fetching statistics:", error));
@@ -18,17 +17,17 @@ const OurFeatures = () => {
 
   const features = [
     {
-      icon: "📦", // Replace with an actual icon component if preferred
+      icon: "📦",
       title: "Parcel Safety",
       description: "We ensure your parcels are always secure and delivered with care.",
     },
     {
-      icon: "⚡", // Replace with an actual icon component if preferred
+      icon: "⚡",
       title: "Super Fast Delivery",
       description: "Get your parcels delivered faster than ever with our service.",
     },
     {
-      icon: "🤝", // Replace with an actual icon component if preferred
+      icon: "🤝",
       title: "Trusted Service",
       description: "Millions of users trust us for their parcel deliveries.",
     },

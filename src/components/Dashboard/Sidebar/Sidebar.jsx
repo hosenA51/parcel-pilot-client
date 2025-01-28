@@ -16,9 +16,6 @@ const Sidebar = () => {
 
     if (isLoading) return <p>Loading...</p>;
 
-    console.log('Current role:', role);
-
-    // Sidebar Responsive Handler
     const handleToggle = () => {
         setActive(!isActive)
     }

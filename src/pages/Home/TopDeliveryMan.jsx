@@ -7,12 +7,12 @@ const TopDeliveryMan = () => {
   useEffect(() => {
     const fetchDeliveryMen = async () => {
       try {
-        const response = await fetch('http://localhost:5000/delivery-men');
+        const response = await fetch('https://parcel-pilot-server.vercel.app/delivery-men');
         const deliveryMenData = await response.json();
 
         const reviewsPromises = deliveryMenData.map(async (man) => {
           const reviewsResponse = await fetch(
-            `http://localhost:5000/reviews/${man._id}`
+            `https://parcel-pilot-server.vercel.app/reviews/${man._id}`
           );
           const reviews = await reviewsResponse.json();
 
@@ -28,7 +28,6 @@ const TopDeliveryMan = () => {
 
         const deliveryMenWithRatings = await Promise.all(reviewsPromises);
 
-        // Sort by averageRating in descending order
         const sortedDeliveryMen = deliveryMenWithRatings.sort(
           (a, b) => b.averageRating - a.averageRating
         );

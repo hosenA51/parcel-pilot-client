@@ -8,13 +8,12 @@ const AllParcels = () => {
   const [selectedParcel, setSelectedParcel] = useState(null);
   const [deliveryDate, setDeliveryDate] = useState('');
   const [selectedDeliveryMan, setSelectedDeliveryMan] = useState('');
-  const [deliveryMen, setDeliveryMen] = useState([]); // State to store delivery men
+  const [deliveryMen, setDeliveryMen] = useState([]);
 
   useEffect(() => {
-    // Fetching parcels data
     const fetchParcels = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/parcels');
+        const response = await axios.get('https://parcel-pilot-server.vercel.app/parcels');
         setParcels(response.data);
         setLoading(false);
       } catch (error) {
@@ -23,11 +22,10 @@ const AllParcels = () => {
       }
     };
 
-    // Fetching delivery men data
     const fetchDeliveryMen = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/delivery-men');
-        setDeliveryMen(response.data); // Storing delivery men in state
+        const response = await axios.get('https://parcel-pilot-server.vercel.app/delivery-men');
+        setDeliveryMen(response.data);
       } catch (error) {
         console.error("Error fetching delivery men:", error);
       }
@@ -42,25 +40,6 @@ const AllParcels = () => {
     setModalOpen(true);
   };
 
-  // const handleAssign = async () => {
-  //   try {
-  //     await axios.patch(`http://localhost:5000/parcels/assign/${selectedParcel._id}`, {
-  //       deliveryManId: selectedDeliveryMan,
-  //       deliveryDate,
-  //     });
-
-  //     setModalOpen(false);
-  //     setSelectedParcel(null);
-  //     setDeliveryDate('');
-  //     setSelectedDeliveryMan('');
-  //     // Refetch parcels to reflect updates
-  //     const response = await axios.get('http://localhost:5000/parcels');
-  //     setParcels(response.data);
-  //   } catch (error) {
-  //     console.error("Error assigning delivery man:", error);
-  //   }
-  // };
-
   const handleAssign = async () => {
     if (!selectedDeliveryMan) {
       alert("Please select a delivery man before assigning.");
@@ -68,7 +47,7 @@ const AllParcels = () => {
     }
   
     try {
-      await axios.patch(`http://localhost:5000/parcels/assign/${selectedParcel._id}`, {
+      await axios.patch(`https://parcel-pilot-server.vercel.app/parcels/assign/${selectedParcel._id}`, {
         deliveryManId: selectedDeliveryMan,
         deliveryDate,
       });
@@ -79,7 +58,7 @@ const AllParcels = () => {
       setDeliveryDate('');
       setSelectedDeliveryMan('');
   
-      const response = await axios.get('http://localhost:5000/parcels');
+      const response = await axios.get('https://parcel-pilot-server.vercel.app/parcels');
       setParcels(response.data);
     } catch (error) {
       console.error("Error assigning delivery man:", error);
@@ -87,7 +66,6 @@ const AllParcels = () => {
     }
   };
   
-
   if (loading) {
     return <p>Loading...</p>;
   }
@@ -129,7 +107,6 @@ const AllParcels = () => {
         </tbody>
       </table>
 
-      {/* Modal for assigning delivery man */}
       {modalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white p-6 rounded-lg w-1/3">

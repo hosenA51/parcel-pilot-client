@@ -9,7 +9,7 @@ const MyReviews = () => {
     const { data: reviews = [], isLoading, isError } = useQuery({
         queryKey: ['reviews', user?.email],
         queryFn: async () => {
-            const response = await axios.get(`http://localhost:5000/reviews/${user?.email}`);
+            const response = await axios.get(`https://parcel-pilot-server.vercel.app/reviews/${user?.email}`);
             return response.data;
         },
         enabled: !!user?.email,

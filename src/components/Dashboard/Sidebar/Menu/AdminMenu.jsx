@@ -5,7 +5,6 @@ import { BiSolidPackage } from "react-icons/bi";
 import { ImUsers } from "react-icons/im";
 
 const AdminMenu = () => {
-    console.log("AdminMenu rendered");
     return (
         <>
             <MenuItem icon={BsGraphUp} label='Statistics' address='statistics' />
