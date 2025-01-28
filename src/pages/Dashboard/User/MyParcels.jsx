@@ -9,47 +9,57 @@ const MyParcels = () => {
     const { user } = useAuth();
     const axiosSecure = useAxiosSecure();
     const [filter, setFilter] = useState('all');
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [review, setReview] = useState({
+        rating: 5,
+        feedback: '',
+    });
+    const [currentParcelId, setCurrentParcelId] = useState(null);
 
-    // Fetch parcels for the logged-in user using react-query
     const { data: parcels = [], refetch } = useQuery({
-        queryKey: ['parcels', user?.email], // Correct queryKey format
+        queryKey: ['parcels', user?.email],
         queryFn: async () => {
             const response = await axiosSecure.get(`/parcels?email=${user?.email}`);
             return response.data;
         }
     });
 
-    // Handle filter change
     const handleFilterChange = (e) => {
         setFilter(e.target.value);
     };
 
-    // Filtered parcels based on the selected status
     const filteredParcels = filter === 'all' ? parcels : parcels.filter(parcel => parcel.status === filter);
 
-    // Cancel a booking
-    // const handleCancel = async (id) => {
-    //     const confirm = await Swal.fire({
-    //         title: 'Are you sure?',
-    //         text: 'This action will cancel your booking.',
-    //         icon: 'warning',
-    //         showCancelButton: true,
-    //         confirmButtonText: 'Yes, cancel it!',
-    //     });
+    // Handle modal open and close
+    const openModal = (parcelId) => {
+        setCurrentParcelId(parcelId); // Set the current parcel ID
+        setIsModalOpen(true);
+    };
+    const closeModal = () => setIsModalOpen(false);
 
-    //     if (confirm.isConfirmed) {
-    //         try {
-    //             const response = await axiosSecure.patch(`/parcels/${id}`, { status: 'canceled' });
-    //             if (response.data.modifiedCount > 0) {
-    //                 Swal.fire('Canceled!', 'Your Parcel has been canceled.', 'success');
-    //                 refetch();
-    //             }
-    //         } catch (error) {
-    //             console.error('Failed to cancel booking:', error);
-    //             Swal.fire('Error', 'Failed to cancel booking. Please try again.', 'error');
-    //         }
-    //     }
-    // };
+    const handleReviewSubmit = async () => {
+        if (!currentParcelId) return;
+
+        try {
+            const response = await axiosSecure.post(`/reviews`, {
+                parcelId: currentParcelId,
+                rating: review.rating,
+                feedback: review.feedback,
+                displayName: user?.displayName,
+                photoURL: user?.photoURL,
+                deliveryManId: parcels.find(parcel => parcel._id === currentParcelId)?.deliveryManId,
+            });
+            if (response.data.success) {
+                Swal.fire('Review Submitted!', 'Your review has been submitted.', 'success');
+                closeModal();
+                refetch();
+            }
+        } catch (error) {
+            console.error('Failed to submit review:', error);
+            Swal.fire('Error', 'Failed to submit review. Please try again.', 'error');
+        }
+    };
+
     const handleCancel = async (id) => {
         const confirm = await Swal.fire({
             title: 'Are you sure?',
@@ -61,10 +71,10 @@ const MyParcels = () => {
 
         if (confirm.isConfirmed) {
             try {
-                const response = await axiosSecure.patch(`/parcels/${id}`, { status: 'canceled' }); // নতুন স্ট্যাটাস পাঠানো
+                const response = await axiosSecure.patch(`/parcels/${id}`, { status: 'canceled' });
                 if (response.data.message) {
                     Swal.fire('Canceled!', 'Your booking has been canceled.', 'success');
-                    refetch(); // নতুন ডাটা লোড করুন
+                    refetch();
                 }
             } catch (error) {
                 console.error('Failed to cancel booking:', error);
@@ -105,33 +115,32 @@ const MyParcels = () => {
                         <tr key={parcel._id}>
                             <td className="border border-gray-300 px-4 py-2">{parcel.parcelType}</td>
                             <td className="border border-gray-300 px-4 py-2">{parcel.requestedDate}</td>
-                            <td className="border border-gray-300 px-4 py-2">{parcel.approximateDate || 'N/A'}</td>
+                            <td className="border border-gray-300 px-4 py-2">{parcel.deliveryDate || 'N/A'}</td>
                             <td className="border border-gray-300 px-4 py-2">
                                 {parcel.bookingDate ? new Date(parcel.bookingDate).toLocaleDateString() : 'Invalid Date'}
                             </td>
-                            <td className="border border-gray-300 px-4 py-2">{parcel.deliveryMenId || 'N/A'}</td>
+                            <td className="border border-gray-300 px-4 py-2">{parcel.deliveryManId || 'N/A'}</td>
                             <td className="border border-gray-300 px-4 py-2 capitalize">{parcel.status}</td>
                             <td className="border border-gray-300 px-4 py-2">
                                 <Link to={`/dashboard/update-parcel/${parcel._id}`}>
                                     <button
                                         className="bg-blue-500 text-white px-2 py-1 rounded mr-2 disabled:bg-gray-400"
                                         disabled={parcel.status !== 'pending'}
-                                    // onClick={() => window.location.href = `/update-booking/${parcel._id}`}
                                     >
                                         Update
                                     </button>
                                 </Link>
                                 <button
                                     className="bg-red-500 text-white px-2 py-1 rounded mr-2 disabled:bg-gray-400"
-                                    disabled={parcel.status !== 'pending'} // শুধু pending হলে সক্রিয় থাকবে
-                                    onClick={() => handleCancel(parcel._id)} // স্ট্যাটাস আপডেট
+                                    disabled={parcel.status !== 'pending'}
+                                    onClick={() => handleCancel(parcel._id)}
                                 >
                                     Cancel
                                 </button>
-                                {parcel.status === 'delivered' && (
+                                {parcel.status === 'Delivered' && (
                                     <button
                                         className="bg-green-500 text-white px-2 py-1 rounded mr-2"
-                                        onClick={() => window.location.href = `/review/${parcel._id}`}
+                                        onClick={() => openModal(parcel._id)}
                                     >
                                         Review
                                     </button>
@@ -144,11 +153,78 @@ const MyParcels = () => {
                                     Pay
                                 </button>
                             </td>
-
                         </tr>
                     ))}
                 </tbody>
             </table>
+
+            {/* DaisyUI Modal for Review */}
+            {isModalOpen && (
+                <div className="modal modal-open">
+                    <div className="modal-box">
+                        <h2 className="text-xl font-bold">Submit Review</h2>
+                        <form
+                            onSubmit={(e) => {
+                                e.preventDefault();
+                                handleReviewSubmit();
+                            }}
+                            className="space-y-4"
+                        >
+                            <div>
+                                <label className="block">User's Name</label>
+                                <input
+                                    type="text"
+                                    value={user?.displayName}
+                                    readOnly
+                                    className="w-full p-2 border rounded"
+                                />
+                            </div>
+                            <div>
+                                <label className="block">User's Image</label>
+                                <img src={user?.photoURL} alt="User" className="w-20 h-20 rounded-full" />
+                            </div>
+                            <div>
+                                <label className="block">Rating (out of 5)</label>
+                                <input
+                                    type="number"
+                                    value={review.rating}
+                                    onChange={(e) => setReview({ ...review, rating: e.target.value })}
+                                    max="5"
+                                    min="1"
+                                    className="w-full p-2 border rounded"
+                                />
+                            </div>
+                            <div>
+                                <label className="block">Feedback</label>
+                                <textarea
+                                    value={review.feedback}
+                                    onChange={(e) => setReview({ ...review, feedback: e.target.value })}
+                                    className="w-full p-2 border rounded"
+                                />
+                            </div>
+                            <div>
+                                <label className="block">Delivery Men’s ID</label>
+                                <input
+                                    type="text"
+                                    value={
+                                        parcels.find(p => p._id === currentParcelId)?.deliveryManId || 'N/A'
+                                    }
+                                    readOnly
+                                    className="w-full p-2 border rounded"
+                                />
+                            </div>
+                            <div>
+                                <button type="submit" className="btn btn-primary">
+                                    Submit Review
+                                </button>
+                            </div>
+                        </form>
+                        <div className="modal-action">
+                            <button className="btn" onClick={closeModal}>Close</button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };
