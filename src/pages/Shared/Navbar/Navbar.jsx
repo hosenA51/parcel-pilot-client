@@ -55,7 +55,7 @@ const Navbar = () => {
                                         </div>
                                     </div>
                                     {isOpen && (
-                                        <div className='menu absolute rounded-xl shadow-md w-[40vw] md:w-[10vw] bg-base-200 overflow-hidden right-0 top-12 text-sm'>
+                                        <div className='menu absolute rounded-xl shadow-md w-[40vw] md:w-[10vw] bg-[#ca6602] overflow-hidden right-0 top-12 text-sm'>
                                             <div className='flex flex-col cursor-pointer'>
                                                 <Link
                                                     to='/'

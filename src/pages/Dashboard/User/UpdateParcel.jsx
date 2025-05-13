@@ -101,7 +101,7 @@ const UpdateParcel = () => {
                             name="phoneNumber"
                             value={formData.phoneNumber}
                             onChange={handleChange}
-                            className="w-full p-2 border rounded"
+                            className="w-full p-2 border rounded bg-[#F3F4F6]"
                         />
                     </div>
                     <div className="form-control flex-1">
@@ -111,7 +111,7 @@ const UpdateParcel = () => {
                             name="parcelType"
                             value={formData.parcelType}
                             onChange={handleChange}
-                            className="w-full p-2 border rounded"
+                            className="w-full p-2 border rounded bg-[#F3F4F6]"
                         />
                     </div>
                 </div>
@@ -123,7 +123,7 @@ const UpdateParcel = () => {
                             name="parcelWeight"
                             value={formData.parcelWeight}
                             onChange={handleChange}
-                            className="w-full p-2 border rounded"
+                            className="w-full p-2 border rounded bg-[#F3F4F6]"
                         />
                     </div>
                     <div className="form-control flex-1">
@@ -133,7 +133,7 @@ const UpdateParcel = () => {
                             name="receiverName"
                             value={formData.receiverName}
                             onChange={handleChange}
-                            className="w-full p-2 border rounded"
+                            className="w-full p-2 border rounded bg-[#F3F4F6]"
                         />
                     </div>
                 </div>
@@ -145,7 +145,7 @@ const UpdateParcel = () => {
                             name="receiverPhone"
                             value={formData.receiverPhoneNumber}
                             onChange={handleChange}
-                            className="w-full p-2 border rounded"
+                            className="w-full p-2 border rounded bg-[#F3F4F6]"
                         />
                     </div>
                     <div className="form-control flex-1">
@@ -155,7 +155,7 @@ const UpdateParcel = () => {
                             name="deliveryAddress"
                             value={formData.deliveryAddress}
                             onChange={handleChange}
-                            className="w-full p-2 border rounded"
+                            className="w-full p-2 border rounded bg-[#F3F4F6]"
                         />
                     </div>
                 </div>
@@ -167,7 +167,7 @@ const UpdateParcel = () => {
                             name="requestedDate"
                             value={formData.requestedDate}
                             onChange={handleChange}
-                            className="w-full p-2 border rounded"
+                            className="w-full p-2 border rounded bg-[#F3F4F6]"
                         />
                     </div>
                     <div className="form-control flex-1">
@@ -177,7 +177,7 @@ const UpdateParcel = () => {
                             name="latitude"
                             value={formData.latitude}
                             onChange={handleChange}
-                            className="w-full p-2 border rounded"
+                            className="w-full p-2 border rounded bg-[#F3F4F6]"
                         />
                     </div>
                 </div>
@@ -189,7 +189,7 @@ const UpdateParcel = () => {
                             name="longitude"
                             value={formData.longitude}
                             onChange={handleChange}
-                            className="w-full p-2 border rounded"
+                            className="w-full p-2 border rounded bg-[#F3F4F6]"
                         />
                     </div>
                     <div className="form-control flex-1">

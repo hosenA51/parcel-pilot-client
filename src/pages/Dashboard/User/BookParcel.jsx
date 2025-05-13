@@ -151,7 +151,7 @@ const BookParcel = () => {
                             name="phoneNumber"
                             value={formData.phoneNumber}
                             onChange={handleChange}
-                            className="w-full p-2 border rounded"
+                            className="w-full p-2 border rounded bg-[#F3F4F6]"
                         />
                     </div>
                     <div className="form-control flex-1">
@@ -161,7 +161,7 @@ const BookParcel = () => {
                             name="parcelType"
                             value={formData.parcelType}
                             onChange={handleChange}
-                            className="w-full p-2 border rounded"
+                            className="w-full p-2 border rounded bg-[#F3F4F6]"
                         />
                     </div>
                 </div>
@@ -173,7 +173,7 @@ const BookParcel = () => {
                             name="parcelWeight"
                             value={formData.parcelWeight}
                             onChange={handleChange}
-                            className="w-full p-2 border rounded"
+                            className="w-full p-2 border rounded bg-[#F3F4F6]"
                         />
                     </div>
                     <div className="form-control flex-1">
@@ -183,7 +183,7 @@ const BookParcel = () => {
                             name="receiverName"
                             value={formData.receiverName}
                             onChange={handleChange}
-                            className="w-full p-2 border rounded"
+                            className="w-full p-2 border rounded bg-[#F3F4F6]"
                         />
                     </div>
                 </div>
@@ -195,7 +195,7 @@ const BookParcel = () => {
                             name="receiverPhone"
                             value={formData.receiverPhone}
                             onChange={handleChange}
-                            className="w-full p-2 border rounded"
+                            className="w-full p-2 border rounded bg-[#F3F4F6]"
                         />
                     </div>
                     <div className="form-control flex-1">
@@ -205,7 +205,7 @@ const BookParcel = () => {
                             name="deliveryAddress"
                             value={formData.deliveryAddress}
                             onChange={handleChange}
-                            className="w-full p-2 border rounded"
+                            className="w-full p-2 border rounded bg-[#F3F4F6]"
                         />
                     </div>
                 </div>
@@ -217,7 +217,7 @@ const BookParcel = () => {
                             name="deliveryDate"
                             value={formData.deliveryDate}
                             onChange={handleChange}
-                            className="w-full p-2 border rounded"
+                            className="w-full p-2 border rounded bg-[#F3F4F6]"
                         />
                     </div>
                     <div className="form-control flex-1">
@@ -227,7 +227,7 @@ const BookParcel = () => {
                             name="latitude"
                             value={formData.latitude}
                             onChange={handleChange}
-                            className="w-full p-2 border rounded"
+                            className="w-full p-2 border rounded bg-[#F3F4F6]"
                         />
                     </div>
                 </div>
@@ -239,7 +239,7 @@ const BookParcel = () => {
                             name="longitude"
                             value={formData.longitude}
                             onChange={handleChange}
-                            className="w-full p-2 border rounded"
+                            className="w-full p-2 border rounded bg-[#F3F4F6]"
                         />
                     </div>
                     <div className="form-control flex-1">

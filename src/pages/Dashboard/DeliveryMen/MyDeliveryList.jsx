@@ -98,14 +98,14 @@ const MyDeliveryList = () => {
           <table className="table-auto w-full border-collapse border border-gray-300 hidden md:table">
             <thead>
               <tr>
-                <th className="border border-gray-300 px-4 py-2">Booked User's Name</th>
-                <th className="border border-gray-300 px-4 py-2">Receiver's Name</th>
-                <th className="border border-gray-300 px-4 py-2">Booked User's Phone</th>
-                <th className="border border-gray-300 px-4 py-2">Requested Delivery Date</th>
-                <th className="border border-gray-300 px-4 py-2">Approximate Delivery Date</th>
-                <th className="border border-gray-300 px-4 py-2">Receiver's Phone</th>
-                <th className="border border-gray-300 px-4 py-2">Receiver's Address</th>
-                <th className="border border-gray-300 px-4 py-2">Actions</th>
+                <th className="border border-gray-300 px-4 py-2 text-black">Booked User's Name</th>
+                <th className="border border-gray-300 px-4 py-2 text-black">Receiver's Name</th>
+                <th className="border border-gray-300 px-4 py-2 text-black">Booked User's Phone</th>
+                <th className="border border-gray-300 px-4 py-2 text-black">Requested Delivery Date</th>
+                <th className="border border-gray-300 px-4 py-2 text-black">Approximate Delivery Date</th>
+                <th className="border border-gray-300 px-4 py-2 text-black">Receiver's Phone</th>
+                <th className="border border-gray-300 px-4 py-2 text-black">Receiver's Address</th>
+                <th className="border border-gray-300 px-4 py-2 text-black">Actions</th>
               </tr>
             </thead>
             <tbody>

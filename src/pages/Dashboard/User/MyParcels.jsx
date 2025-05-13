@@ -87,7 +87,7 @@ const MyParcels = () => {
             <h1 className="text-3xl font-bold text-center mb-6">My Parcels</h1>
             <div className="mb-4">
                 <label htmlFor="statusFilter" className="mr-2">Filter by Status:</label>
-                <select id="statusFilter" value={filter} onChange={handleFilterChange} className="border rounded p-2">
+                <select id="statusFilter" value={filter} onChange={handleFilterChange} className="border rounded p-2 bg-gray-400">
                     <option value="all">All</option>
                     <option value="pending">Pending</option>
                     <option value="onTheWay">On the way</option>
