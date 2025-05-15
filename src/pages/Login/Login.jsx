@@ -67,7 +67,7 @@ const Login = () => {
                     <div className='bg-[#1A202C] w-32 h-2 rounded-full'></div>
                     <p className='text-white text-lg font-semibold'>Sign in to continue to your <br /> account.</p>
                 </div>
-                <form onSubmit={handleSubmit} className="card-body bg-base-100">
+                <form onSubmit={handleSubmit} className="card-body bg-white">
                     <div className="form-control">
                         <label className="label">
                             <span className="">Email</span>
@@ -76,7 +76,7 @@ const Login = () => {
                             name='email'
                             type="email"
                             placeholder="Email"
-                            className="input input-bordered text-black"
+                            className="input input-bordered text-white"
                             required />
                     </div>
                     <div className="form-control relative">
@@ -87,7 +87,7 @@ const Login = () => {
                             name='password'
                             type={showPassword ? 'text' : 'password'}
                             placeholder="Password"
-                            className="input input-bordered text-black"
+                            className="input input-bordered text-white"
                             required />
                         <button
                             type='button'
@@ -98,18 +98,11 @@ const Login = () => {
                             }
                         </button>
                     </div>
-                    <div className='flex justify-between items-center gap-2 mt-4'>
-                        <div className='w-full border-b-2'></div>
-                        <div>
-                            <p>OR</p>
-                        </div>
-                        <div className='w-full border-b-2'></div>
-                    </div>
-                    <div className="form-control mt-4">
-                        <button onClick={handleGoogleSignIn} className="btn px-3 btn-outline border-blue-700/80 hover:bg-[#ca6602] text-lg  rounded-full cursor-pointer"><FcGoogle /> Continue With Google</button>
-                    </div>
                     <div className="form-control mt-4">
                         <button className="btn px-5 bg-[#FB923C] text-lg text-white rounded-full cursor-pointer hover:bg-[#ca6602] hover:text-gray-300">Login</button>
+                    </div>
+                    <div className="form-control mt-4">
+                        <button onClick={handleGoogleSignIn} className="btn px-3 btn-outline border-blue-700/80 hover:bg-[#ca6602] text-lg text-black hover:text-white rounded-full cursor-pointer"><FcGoogle /> Continue With Google</button>
                     </div>
                     <div className='form-control mt-4 mx-auto text-lg font-medium'>
                         <p>Don't have an account yet? <NavLink to="/signup" className="text-[#FF6363]">Sign Up</NavLink></p>

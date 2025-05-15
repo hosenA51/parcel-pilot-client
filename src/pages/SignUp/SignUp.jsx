@@ -70,19 +70,19 @@ const SignUp = () => {
 
     return (
         <div className='min-h-screen flex items-center bg-[#1A202C]'>
-            <div className="card w-full mx-auto max-w-2xl shadow-xl bg-white flex flex-row rounded-none">
-                <div className='flex flex-col bg-[#9f6914] justify-center space-y-5 pl-6'>
+            <div className="card w-full mx-auto max-w-2xl shadow-xl bg-white flex lg:flex-row md:flex-row rounded-none">
+                <div className='flex flex-col bg-[#9f6914] justify-center space-y-5 py-6 pl-6'>
                     <h1 className='text-2xl text-white font-bold'>Your Reliable Delivery Partner</h1>
                     <div className='bg-[#1A202C] w-32 h-2 rounded-full'></div>
                     <p className='text-white text-lg font-semibold'>Seamless Booking, Smarter Delivery, <br /> Efficient Management – Experience <br /> the Future with ParcelPilot!</p>
                 </div>
-                <form onSubmit={handleSubmit} className="card-body bg-base-100">
+                <form onSubmit={handleSubmit} className="card-body bg-white">
                     <div className="form-control">
                         <input
                             name='name'
                             type="text"
                             placeholder="Name"
-                            className="input input-bordered text-black"
+                            className="input input-bordered text-white"
                             required
                         />
                     </div>
@@ -91,7 +91,7 @@ const SignUp = () => {
                             name='email'
                             type="email"
                             placeholder="Email"
-                            className="input input-bordered text-black"
+                            className="input input-bordered text-white"
                             required
                         />
                     </div>
@@ -100,7 +100,7 @@ const SignUp = () => {
                             name='phone'
                             type="number"
                             placeholder="Phone"
-                            className="input input-bordered text-black"
+                            className="input input-bordered text-white"
                             required
                         />
                     </div>
@@ -117,14 +117,14 @@ const SignUp = () => {
                         />
                     </div>
                     <div className="form-control">
-                        <select name="role" className="select select-bordered w-full max-w-xs" required>
+                        <select name="role" className="select select-bordered w-full max-w-xs text-white" required>
                             <option>Role</option>
                             <option value="user">User</option>
                             <option value="delivery-men">Delivery Men</option>
                         </select>
                     </div>
                     <div className="form-control relative">
-                        <input type={showPassword ? 'text' : 'password'} name="password" placeholder="password" className="input input-bordered" required />
+                        <input type={showPassword ? 'text' : 'password'} name="password" placeholder="password" className="input input-bordered text-white" required />
                         <button
                             type='button'
                             onClick={() => setShowPassword(!showPassword)}
@@ -134,18 +134,11 @@ const SignUp = () => {
                             }
                         </button>
                     </div>
-                    <div className='flex justify-between items-center gap-2 mt-4'>
-                        <div className='w-full border-b-2'></div>
-                        <div>
-                            <p>OR</p>
-                        </div>
-                        <div className='w-full border-b-2'></div>
-                    </div>
-                    <div className="form-control mt-4">
-                        <button onClick={handleGoogleSignIn} className="btn px-3 btn-outline border-blue-700/80 hover:bg-[#ca6602] text-lg  rounded-full cursor-pointer"><FcGoogle /> Continue With Google</button>
-                    </div>
                     <div className="form-control mt-3">
                         <button className="btn px-5 bg-[#FB923C] text-lg text-white rounded-full cursor-pointer hover:bg-[#ca6602] hover:text-gray-300">Sign Up</button>
+                    </div>
+                    <div className="form-control mt-4">
+                        <button onClick={handleGoogleSignIn} className="btn px-3 btn-outline border-blue-700/80 hover:bg-[#ca6602] text-lg text-black hover:text-white rounded-full cursor-pointer"><FcGoogle /> Continue With Google</button>
                     </div>
                     <div className='form-control mt-3 mx-auto text-lg font-medium'>
                         <p>Already have an account? <NavLink to="/login" className="text-[#FF6363]">Login</NavLink></p>

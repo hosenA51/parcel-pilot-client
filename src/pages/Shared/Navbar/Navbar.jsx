@@ -3,7 +3,6 @@ import { useContext, useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
 import logo from '../../../assets/logo1.png'
 import { Button } from '@/components/ui/button'
-import { MdNotificationAdd } from "react-icons/md"
 import './Navbar.css'
 import { AuthContext } from '@/providers/AuthProvider'
 const Navbar = () => {
@@ -11,8 +10,8 @@ const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
 
     return (
-        <div className='fixed w-full bg-transparent z-10 shadow-sm'>
-            <div className='py-4 border-b-[1px]'>
+        <div className='fixed w-full z-50 backdrop-blur-md bg-white/40 shadow-sm'>
+            <div className='py-4 border-b-[1px] bg-transparent'>
                 <Container>
                     <div className='flex flex-row items-center justify-between gap-3 md:gap-0'>
                         {/* Logo */}
@@ -34,22 +33,20 @@ const Navbar = () => {
                                 Home
                             </NavLink>
 
-                            <p className='text-2xl text-[#ca6602] font-semibold cursor-pointer'><MdNotificationAdd /></p>
                             {user ?
                                 <div className='relative'>
                                     <div className='flex flex-row items-center gap-3'>
                                         <div
                                             onClick={() => setIsOpen(!isOpen)}
-                                            className='p-4 md:py-1 md:px-1 border-[1px] border-neutral-200 flex flex-row items-center gap-3 rounded-full cursor-pointer hover:shadow-md transition'
+                                            className='md:py-1 md:px-1 md:border-[1px] border-neutral-200 flex flex-row items-center gap-3 rounded-full cursor-pointer hover:shadow-md transition'
                                         >
-                                            <div className='hidden md:block rounded-full'>
+                                            <div className='rounded-full w-[30px] h-[30px] overflow-hidden border border-white'>
                                                 <img
-                                                    className='rounded-full object-cover'
+                                                    className='rounded-full w-full h-full'
                                                     referrerPolicy='no-referrer'
                                                     src={user && user.photoURL}
                                                     alt='profile'
-                                                    height='30'
-                                                    width='30'
+                                                    
                                                 />
                                             </div>
                                         </div>

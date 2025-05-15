@@ -10,10 +10,7 @@ const MyParcels = () => {
     const axiosSecure = useAxiosSecure();
     const [filter, setFilter] = useState('all');
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [review, setReview] = useState({
-        rating: 5,
-        feedback: '',
-    });
+    const [review, setReview] = useState({ rating: 5, feedback: '' });
     const [currentParcelId, setCurrentParcelId] = useState(null);
 
     const { data: parcels = [], refetch } = useQuery({
@@ -24,10 +21,7 @@ const MyParcels = () => {
         }
     });
 
-    const handleFilterChange = (e) => {
-        setFilter(e.target.value);
-    };
-
+    const handleFilterChange = (e) => setFilter(e.target.value);
     const filteredParcels = filter === 'all' ? parcels : parcels.filter(parcel => parcel.status === filter);
 
     const openModal = (parcelId) => {
@@ -85,9 +79,15 @@ const MyParcels = () => {
     return (
         <div className="container mx-auto p-4">
             <h1 className="text-3xl font-bold text-center mb-6">My Parcels</h1>
+
             <div className="mb-4">
                 <label htmlFor="statusFilter" className="mr-2">Filter by Status:</label>
-                <select id="statusFilter" value={filter} onChange={handleFilterChange} className="border rounded p-2 bg-gray-400">
+                <select
+                    id="statusFilter"
+                    value={filter}
+                    onChange={handleFilterChange}
+                    className="border rounded p-2 bg-gray-300"
+                >
                     <option value="all">All</option>
                     <option value="pending">Pending</option>
                     <option value="onTheWay">On the way</option>
@@ -97,70 +97,104 @@ const MyParcels = () => {
                 </select>
             </div>
 
-            <table className="table-auto w-full border-collapse border border-gray-300">
-                <thead>
-                    <tr className="bg-gray-100">
-                        <th className="border border-gray-300 px-4 py-2">Parcel Type</th>
-                        <th className="border border-gray-300 px-4 py-2">Requested Delivery Date</th>
-                        <th className="border border-gray-300 px-4 py-2">Approximate Delivery Date</th>
-                        <th className="border border-gray-300 px-4 py-2">Booking Date</th>
-                        <th className="border border-gray-300 px-4 py-2">Delivery Men ID</th>
-                        <th className="border border-gray-300 px-4 py-2">Status</th>
-                        <th className="border border-gray-300 px-4 py-2">Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {filteredParcels.map((parcel) => (
-                        <tr key={parcel._id}>
-                            <td className="border border-gray-300 px-4 py-2">{parcel.parcelType}</td>
-                            <td className="border border-gray-300 px-4 py-2">{parcel.requestedDate}</td>
-                            <td className="border border-gray-300 px-4 py-2">{parcel.deliveryDate || 'N/A'}</td>
-                            <td className="border border-gray-300 px-4 py-2">
-                                {parcel.bookingDate ? new Date(parcel.bookingDate).toLocaleDateString() : 'Invalid Date'}
-                            </td>
-                            <td className="border border-gray-300 px-4 py-2">{parcel.deliveryManId || 'N/A'}</td>
-                            <td className="border border-gray-300 px-4 py-2 capitalize">{parcel.status}</td>
-                            <td className="border border-gray-300 px-4 py-2">
-                                <Link to={`/dashboard/update-parcel/${parcel._id}`}>
-                                    <button
-                                        className="bg-blue-500 text-white px-2 py-1 rounded mr-2 disabled:bg-gray-400"
-                                        disabled={parcel.status !== 'pending'}
-                                    >
-                                        Update
-                                    </button>
-                                </Link>
-                                <button
-                                    className="bg-red-500 text-white px-2 py-1 rounded mr-2 disabled:bg-gray-400"
-                                    disabled={parcel.status !== 'pending'}
-                                    onClick={() => handleCancel(parcel._id)}
-                                >
-                                    Cancel
-                                </button>
-                                {parcel.status === 'Delivered' && (
-                                    <button
-                                        className="bg-green-500 text-white px-2 py-1 rounded mr-2"
-                                        onClick={() => openModal(parcel._id)}
-                                    >
-                                        Review
-                                    </button>
-                                )}
-                                <button
-                                    className="bg-yellow-500 text-white px-2 py-1 rounded disabled:bg-gray-400"
-                                    disabled={parcel.status !== 'pending'}
-                                    onClick={() => window.location.href = `/pay/${parcel._id}`}
-                                >
-                                    Pay
-                                </button>
-                            </td>
+            {/* Table view for large screens */}
+            <div className="hidden lg:block">
+                <table className="table-auto w-full border-collapse border border-gray-300">
+                    <thead>
+                        <tr className="bg-gray-100">
+                            <th className="border px-4 py-2">Parcel Type</th>
+                            <th className="border px-4 py-2">Requested Date</th>
+                            <th className="border px-4 py-2">Delivery Date</th>
+                            <th className="border px-4 py-2">Booking Date</th>
+                            <th className="border px-4 py-2">DeliveryMan ID</th>
+                            <th className="border px-4 py-2">Status</th>
+                            <th className="border px-4 py-2">Actions</th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {filteredParcels.map(parcel => (
+                            <tr key={parcel._id}>
+                                <td className="border px-4 py-2">{parcel.parcelType}</td>
+                                <td className="border px-4 py-2">{parcel.requestedDate}</td>
+                                <td className="border px-4 py-2">{parcel.deliveryDate || 'N/A'}</td>
+                                <td className="border px-4 py-2">
+                                    {parcel.bookingDate ? new Date(parcel.bookingDate).toLocaleDateString() : 'Invalid'}
+                                </td>
+                                <td className="border px-4 py-2">{parcel.deliveryManId || 'N/A'}</td>
+                                <td className="border px-4 py-2 capitalize">{parcel.status}</td>
+                                <td className="border px-4 py-2 space-y-1">
+                                    <Link to={`/dashboard/update-parcel/${parcel._id}`}>
+                                        <button className="bg-blue-500 text-white px-2 py-1 rounded mr-1 disabled:bg-gray-400"
+                                            disabled={parcel.status !== 'pending'}>
+                                            Update
+                                        </button>
+                                    </Link>
+                                    <button className="bg-red-500 text-white px-2 py-1 rounded mr-1 disabled:bg-gray-400"
+                                        disabled={parcel.status !== 'pending'}
+                                        onClick={() => handleCancel(parcel._id)}>
+                                        Cancel
+                                    </button>
+                                    {parcel.status === 'Delivered' && (
+                                        <button className="bg-green-500 text-white px-2 py-1 rounded mr-1"
+                                            onClick={() => openModal(parcel._id)}>
+                                            Review
+                                        </button>
+                                    )}
+                                    <button className="bg-yellow-500 text-white px-2 py-1 rounded disabled:bg-gray-400"
+                                        disabled={parcel.status !== 'pending'}
+                                        onClick={() => window.location.href = `/pay/${parcel._id}`}>
+                                        Pay
+                                    </button>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
 
+            {/* Card view for small/medium devices */}
+            <div className="lg:hidden space-y-4">
+                {filteredParcels.map(parcel => (
+                    <div key={parcel._id} className="bg-white shadow rounded p-4 border border-gray-300">
+                        <p><strong>Parcel Type:</strong> {parcel.parcelType}</p>
+                        <p><strong>Requested Date:</strong> {parcel.requestedDate}</p>
+                        <p><strong>Delivery Date:</strong> {parcel.deliveryDate || 'N/A'}</p>
+                        <p><strong>Booking Date:</strong> {parcel.bookingDate ? new Date(parcel.bookingDate).toLocaleDateString() : 'Invalid'}</p>
+                        <p><strong>DeliveryMan ID:</strong> {parcel.deliveryManId || 'N/A'}</p>
+                        <p><strong>Status:</strong> <span className="capitalize">{parcel.status}</span></p>
+                        <div className="mt-2 flex flex-wrap gap-2">
+                            <Link to={`/dashboard/update-parcel/${parcel._id}`}>
+                                <button className="bg-blue-500 text-white px-3 py-1 rounded disabled:bg-gray-400"
+                                    disabled={parcel.status !== 'pending'}>
+                                    Update
+                                </button>
+                            </Link>
+                            <button className="bg-red-500 text-white px-3 py-1 rounded disabled:bg-gray-400"
+                                disabled={parcel.status !== 'pending'}
+                                onClick={() => handleCancel(parcel._id)}>
+                                Cancel
+                            </button>
+                            {parcel.status === 'Delivered' && (
+                                <button className="bg-green-500 text-white px-3 py-1 rounded"
+                                    onClick={() => openModal(parcel._id)}>
+                                    Review
+                                </button>
+                            )}
+                            <button className="bg-yellow-500 text-white px-3 py-1 rounded disabled:bg-gray-400"
+                                disabled={parcel.status !== 'pending'}
+                                onClick={() => window.location.href = `/pay/${parcel._id}`}>
+                                Pay
+                            </button>
+                        </div>
+                    </div>
+                ))}
+            </div>
+
+            {/* Modal */}
             {isModalOpen && (
-                <div className="modal modal-open">
-                    <div className="modal-box">
-                        <h2 className="text-xl font-bold">Submit Review</h2>
+                <div className="modal modal-open fixed inset-0 flex justify-center items-center bg-black bg-opacity-50 z-50">
+                    <div className="modal-box bg-white p-6 rounded shadow-lg w-full max-w-md">
+                        <h2 className="text-xl font-bold mb-4">Submit Review</h2>
                         <form
                             onSubmit={(e) => {
                                 e.preventDefault();
@@ -168,58 +202,30 @@ const MyParcels = () => {
                             }}
                             className="space-y-4"
                         >
-                            <div>
-                                <label className="block">User's Name</label>
-                                <input
-                                    type="text"
-                                    value={user?.displayName}
-                                    readOnly
-                                    className="w-full p-2 border rounded"
-                                />
-                            </div>
-                            <div>
-                                <label className="block">User's Image</label>
-                                <img src={user?.photoURL} alt="User" className="w-20 h-20 rounded-full" />
-                            </div>
-                            <div>
-                                <label className="block">Rating (out of 5)</label>
-                                <input
-                                    type="number"
-                                    value={review.rating}
-                                    onChange={(e) => setReview({ ...review, rating: e.target.value })}
-                                    max="5"
-                                    min="1"
-                                    className="w-full p-2 border rounded"
-                                />
-                            </div>
-                            <div>
-                                <label className="block">Feedback</label>
-                                <textarea
-                                    value={review.feedback}
-                                    onChange={(e) => setReview({ ...review, feedback: e.target.value })}
-                                    className="w-full p-2 border rounded"
-                                />
-                            </div>
-                            <div>
-                                <label className="block">Delivery Men’s ID</label>
-                                <input
-                                    type="text"
-                                    value={
-                                        parcels.find(p => p._id === currentParcelId)?.deliveryManId || 'N/A'
-                                    }
-                                    readOnly
-                                    className="w-full p-2 border rounded"
-                                />
-                            </div>
-                            <div>
-                                <button type="submit" className="btn btn-primary">
-                                    Submit Review
-                                </button>
-                            </div>
+                            <input type="text" readOnly value={user?.displayName} className="w-full p-2 border rounded" />
+                            <img src={user?.photoURL} alt="User" className="w-20 h-20 rounded-full" />
+                            <input
+                                type="number"
+                                max="5"
+                                min="1"
+                                value={review.rating}
+                                onChange={(e) => setReview({ ...review, rating: e.target.value })}
+                                className="w-full p-2 border rounded"
+                            />
+                            <textarea
+                                value={review.feedback}
+                                onChange={(e) => setReview({ ...review, feedback: e.target.value })}
+                                className="w-full p-2 border rounded"
+                            />
+                            <input
+                                type="text"
+                                readOnly
+                                value={parcels.find(p => p._id === currentParcelId)?.deliveryManId || 'N/A'}
+                                className="w-full p-2 border rounded"
+                            />
+                            <button type="submit" className="btn btn-primary w-full">Submit Review</button>
                         </form>
-                        <div className="modal-action">
-                            <button className="btn" onClick={closeModal}>Close</button>
-                        </div>
+                        <button className="btn mt-4 w-full" onClick={closeModal}>Close</button>
                     </div>
                 </div>
             )}

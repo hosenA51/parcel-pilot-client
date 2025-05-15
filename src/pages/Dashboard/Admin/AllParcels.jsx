@@ -66,13 +66,15 @@ const AllParcels = () => {
   };
 
   if (loading) {
-    return <p>Loading...</p>;
+    return <p className="text-center mt-10">Loading...</p>;
   }
 
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4">All Parcels</h1>
-      <div className="overflow-x-auto">
+
+      {/* Desktop Table View */}
+      <div className="hidden lg:block overflow-x-auto">
         <table className="table-auto w-full border-collapse border border-gray-300 text-sm md:text-base">
           <thead>
             <tr className="bg-gray-100">
@@ -90,8 +92,12 @@ const AllParcels = () => {
               <tr key={parcel._id} className="hover:bg-gray-50">
                 <td className="border border-gray-300 px-4 py-2 truncate">{parcel.senderName}</td>
                 <td className="border border-gray-300 px-4 py-2 truncate">{parcel.phoneNumber}</td>
-                <td className="border border-gray-300 px-4 py-2 truncate">{new Date(parcel.bookingDate).toLocaleDateString()}</td>
-                <td className="border border-gray-300 px-4 py-2 truncate">{new Date(parcel.requestedDate).toLocaleDateString()}</td>
+                <td className="border border-gray-300 px-4 py-2 truncate">
+                  {new Date(parcel.bookingDate).toLocaleDateString()}
+                </td>
+                <td className="border border-gray-300 px-4 py-2 truncate">
+                  {new Date(parcel.requestedDate).toLocaleDateString()}
+                </td>
                 <td className="border border-gray-300 px-4 py-2 truncate">{parcel.price}</td>
                 <td className="border border-gray-300 px-4 py-2 truncate">{parcel.status}</td>
                 <td className="border border-gray-300 px-4 py-2 text-center">
@@ -108,6 +114,27 @@ const AllParcels = () => {
         </table>
       </div>
 
+      {/* Mobile & Tablet Card View */}
+      <div className="block lg:hidden space-y-4">
+        {parcels.map((parcel) => (
+          <div key={parcel._id} className="border border-gray-300 rounded-md p-4 shadow-sm">
+            <p><strong>User's Name:</strong> {parcel.senderName}</p>
+            <p><strong>User's Phone:</strong> {parcel.phoneNumber}</p>
+            <p><strong>Booking Date:</strong> {new Date(parcel.bookingDate).toLocaleDateString()}</p>
+            <p><strong>Requested Date:</strong> {new Date(parcel.requestedDate).toLocaleDateString()}</p>
+            <p><strong>Cost:</strong> {parcel.price}</p>
+            <p><strong>Status:</strong> {parcel.status}</p>
+            <button
+              onClick={() => handleManageClick(parcel)}
+              className="mt-3 w-full px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+            >
+              Manage
+            </button>
+          </div>
+        ))}
+      </div>
+
+      {/* Modal */}
       {modalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white p-6 rounded-lg w-11/12 max-w-md">
